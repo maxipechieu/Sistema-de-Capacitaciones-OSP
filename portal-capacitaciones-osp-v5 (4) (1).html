@@ -1,0 +1,3593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Capacitación - Obra Social Provincia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #003d7a;
+            --secondary-color: #f39c12;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-bg: #ecf0f1;
+            --dark-text: #2c3e50;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logos {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 60px;
+        }
+
+        .header-title {
+            text-align: center;
+            flex: 1;
+        }
+
+        .header-title h1 {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .header-title p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .user-info {
+            background: var(--light-bg);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            text-align: right;
+        }
+
+        .user-info .user-actions {
+            margin-top: 8px;
+        }
+
+        .btn-clear {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s;
+        }
+
+        .btn-clear:hover {
+            background: #c0392b;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .login-icon {
+            text-align: center;
+            font-size: 4em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-text);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #002a54;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 61, 122, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #e67e22;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+            padding: 30px 0;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+            padding: 10px 20px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .category-tab:hover {
+            background: #ccc;
+        }
+
+        .category-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .module-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .module-card.category-seguridad::before {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+
+        .module-card.category-calidad::before {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .module-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .module-card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .module-category-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .badge-seguridad {
+            background: #fdeaea;
+            color: #e74c3c;
+        }
+
+        .badge-calidad {
+            background: #eafaf1;
+            color: #27ae60;
+        }
+
+        .module-status {
+            margin-top: 15px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* Training Content */
+        .training-content {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+        }
+
+        .training-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .training-header h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: #95a5a6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .training-section {
+            margin-bottom: 30px;
+        }
+
+        .training-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .training-section h4 {
+            color: var(--secondary-color);
+            margin: 20px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .training-section ul,
+        .training-section ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        .training-section li {
+            margin-bottom: 8px;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .danger-box {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .quiz-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .question {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .question h4 {
+            color: var(--dark-text);
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            background: #e9ecef;
+            border-color: var(--primary-color);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .quiz-results {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .quiz-score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .score-excellent {
+            color: #28a745;
+        }
+
+        .score-good {
+            color: #ffc107;
+        }
+
+        .score-poor {
+            color: #dc3545;
+        }
+
+        /* Certificate */
+        .certificate-section {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        #certificateCanvas {
+            border: 3px solid var(--primary-color);
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Responsive - Tablets */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                padding: 0 15px;
+            }
+
+            .logos {
+                flex-direction: row;
+                gap: 15px;
+            }
+
+            .logo-img {
+                height: 45px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .training-content {
+                padding: 20px;
+            }
+
+            .header-title h1 {
+                font-size: 1.3em;
+            }
+
+            .header-title p {
+                font-size: 0.8em;
+            }
+
+            .category-tabs {
+                justify-content: center;
+            }
+
+            .user-info {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+        }
+
+        /* Responsive - Móviles */
+        @media (max-width: 576px) {
+            header {
+                padding: 10px 0;
+                position: sticky;
+                top: 0;
+            }
+
+            .header-content {
+                gap: 8px;
+                padding: 0 10px;
+            }
+
+            .logos {
+                gap: 10px;
+            }
+
+            .logo-img {
+                height: 35px;
+            }
+
+            .header-title {
+                padding: 0 5px;
+            }
+
+            .header-title h1 {
+                font-size: 1.1em;
+                line-height: 1.2;
+            }
+
+            .header-title p {
+                font-size: 0.75em;
+                display: none; /* Ocultar subtítulo en móvil pequeño */
+            }
+
+            .user-info {
+                padding: 6px 10px;
+                font-size: 0.8em;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .user-info br {
+                display: none;
+            }
+
+            .user-info #userPosition {
+                display: none;
+            }
+
+            .user-info .user-actions {
+                margin-top: 0;
+            }
+
+            .btn-clear {
+                padding: 3px 8px;
+                font-size: 0.7em;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .welcome-section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .welcome-section h2 {
+                font-size: 1.2em;
+            }
+
+            .category-tabs {
+                gap: 5px;
+            }
+
+            .category-tab {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+
+            .module-icon {
+                font-size: 2.5em;
+            }
+
+            .module-card h3 {
+                font-size: 1em;
+            }
+
+            .module-card p {
+                font-size: 0.85em;
+            }
+
+            .login-card {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            .login-icon {
+                font-size: 3em;
+            }
+
+            .form-group label {
+                font-size: 0.9em;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+
+            .btn {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            .training-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .training-header h2 {
+                font-size: 1.4em;
+            }
+
+            .training-section h3 {
+                font-size: 1.2em;
+            }
+
+            .training-section h4 {
+                font-size: 1em;
+            }
+
+            .training-section ul,
+            .training-section ol {
+                margin-left: 20px;
+            }
+
+            .info-box,
+            .warning-box,
+            .danger-box,
+            .success-box {
+                padding: 15px;
+                font-size: 0.9em;
+            }
+
+            .quiz-section {
+                padding: 15px;
+            }
+
+            .question {
+                padding: 15px;
+            }
+
+            .option {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+
+            .quiz-score {
+                font-size: 2.5em;
+            }
+
+            .progress-summary {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            table th,
+            table td {
+                padding: 8px 6px;
+            }
+        }
+
+        /* Responsive - Móviles muy pequeños */
+        @media (max-width: 380px) {
+            .logo-img {
+                height: 28px;
+            }
+
+            .header-title h1 {
+                font-size: 0.95em;
+            }
+
+            .user-info {
+                font-size: 0.75em;
+                gap: 8px;
+            }
+
+            .btn-clear {
+                padding: 2px 6px;
+                font-size: 0.65em;
+            }
+
+            .category-tab {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+
+            .module-card {
+                padding: 15px;
+            }
+
+            .module-icon {
+                font-size: 2em;
+            }
+
+            .training-header h2 {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        table tr:hover {
+            background: #f5f5f5;
+        }
+
+        /* Modal Confirmación */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h3 {
+            color: var(--danger-color);
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-buttons button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-confirm-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-confirm-delete:hover {
+            background: #c0392b;
+        }
+
+        /* Progress Summary */
+        .progress-summary {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .progress-item {
+            flex: 1;
+            min-width: 150px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .progress-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .progress-item .count {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .progress-item.seguridad .count {
+            color: #e74c3c;
+        }
+
+        .progress-item.calidad .count {
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logos">
+                <img src="https://www.obrasocial.sanjuan.gob.ar/Logo-SJ.svg" alt="Logo San Juan" class="logo-img">
+                <img src="https://www.obrasocial.sanjuan.gob.ar/frame.svg" alt="Logo OSP" class="logo-img">
+            </div>
+            <div class="header-title">
+                <h1>Portal de Capacitación</h1>
+                <p>Obra Social Provincia - San Juan</p>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <strong id="userName"></strong><br>
+                <span id="userPosition"></span>
+                <div class="user-actions">
+                    <button class="btn-clear" onclick="showClearDataModal()">🗑️ Limpiar datos</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal-overlay" id="clearDataModal">
+        <div class="modal-content">
+            <h3>⚠️ Confirmar Limpieza de Datos</h3>
+            <p>Esta acción eliminará todos sus datos y progreso de capacitación. Deberá volver a ingresar sus datos y completar los módulos nuevamente.</p>
+            <p><strong>¿Está seguro de que desea continuar?</strong></p>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="hideClearDataModal()">Cancelar</button>
+                <button class="btn-confirm-delete" onclick="clearAllData()">Sí, limpiar todo</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Login Screen -->
+        <div class="login-screen" id="loginScreen">
+            <div class="login-card animate-in">
+                <div class="login-icon">🛡️</div>
+                <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 30px;">
+                    Acceso al Portal de Capacitación
+                </h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="userName">Nombre Completo *</label>
+                        <input type="text" id="userNameInput" required placeholder="Ingrese su nombre completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="userPosition">Cargo / Puesto *</label>
+                        <select id="userPositionInput" required>
+                            <option value="">Seleccione su cargo</option>
+                            <option value="Administrativo">Administrativo</option>
+                            <option value="Atención al Público">Atención al Público</option>
+                            <option value="Auditoría">Auditoría</option>
+                            <option value="Archivo">Archivo</option>
+                            <option value="Dirección">Dirección</option>
+                            <option value="Recursos Humanos">Recursos Humanos</option>
+                            <option value="Profesional de Salud">Profesional de Salud</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userDni">DNI *</label>
+                        <input type="text" id="userDni" required placeholder="Ingrese su DNI" pattern="[0-9]{7,8}">
+                    </div>
+                    <button type="submit" class="btn">Ingresar al Portal</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Welcome Section -->
+            <div class="welcome-section animate-in">
+                <h2>¡Bienvenido/a al Portal de Capacitación!</h2>
+                <p>
+                    Este portal ha sido diseñado para brindarle las herramientas y conocimientos necesarios 
+                    para garantizar su seguridad, la de sus compañeros y mejorar la calidad de atención 
+                    en la Obra Social Provincia.
+                </p>
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>📋 Importante:</strong> Complete cada módulo de capacitación y apruebe el cuestionario 
+                    correspondiente (mínimo 70%) para obtener su certificado de capacitación.
+                </div>
+
+                <!-- Overall Progress -->
+                <div style="margin-top: 30px;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 10px;">Su Progreso General</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="overallProgress" style="width: 0%">0%</div>
+                    </div>
+                    <div class="progress-summary">
+                        <div class="progress-item">
+                            <h4>Total Completados</h4>
+                            <div class="count"><span id="completedModules">0</span> / <span id="totalModules">0</span></div>
+                        </div>
+                        <div class="progress-item seguridad">
+                            <h4>🔥 Seguridad e Higiene</h4>
+                            <div class="count"><span id="completedSeguridad">0</span> / <span id="totalSeguridad">0</span></div>
+                        </div>
+                        <div class="progress-item calidad">
+                            <h4>⭐ Gestión de Calidad</h4>
+                            <div class="count"><span id="completedCalidad">0</span> / <span id="totalCalidad">0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active" onclick="filterModules('todos')">📚 Todos</button>
+                <button class="category-tab" onclick="filterModules('seguridad')">🔥 Seguridad e Higiene</button>
+                <button class="category-tab" onclick="filterModules('calidad')">⭐ Gestión de Calidad</button>
+            </div>
+
+            <!-- Modules Grid -->
+            <div class="modules-grid" id="modulesGrid">
+                <!-- Modules will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Training Content Area -->
+        <div class="training-content" id="trainingContent">
+            <div class="training-header">
+                <h2 id="trainingTitle"></h2>
+                <button class="back-btn" onclick="showModules()">← Volver a Módulos</button>
+            </div>
+            <div id="trainingBody"></div>
+            
+            <!-- Start Quiz Button -->
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="startQuiz()" style="max-width: 400px;">
+                    Iniciar Evaluación 📝
+                </button>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="quiz-section" id="quizSection">
+                <h3>Evaluación de Conocimientos</h3>
+                <div id="quizQuestions"></div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn" onclick="submitQuiz()" style="max-width: 400px;">
+                        Enviar Respuestas
+                    </button>
+                </div>
+                <div class="quiz-results" id="quizResults">
+                    <h2 id="resultsTitle"></h2>
+                    <div class="quiz-score" id="quizScore"></div>
+                    <p id="resultsMessage"></p>
+                    <button class="btn" onclick="generateCertificate()" id="certButton" style="max-width: 400px; display: none;">
+                        Generar Certificado 🏆
+                    </button>
+                    <button class="btn-secondary btn" onclick="retryQuiz()" id="retryButton" style="max-width: 400px; display: none;">
+                        Reintentar Evaluación
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate Section -->
+        <div class="certificate-section" id="certificateSection">
+            <h2 style="color: var(--primary-color); margin-bottom: 20px;">¡Felicitaciones! 🎉</h2>
+            <p style="font-size: 1.2em; margin-bottom: 20px;">Ha completado exitosamente la capacitación</p>
+            <canvas id="certificateCanvas" width="1200" height="850"></canvas>
+            <div style="margin-top: 30px;">
+                <button class="btn" onclick="downloadCertificate()" style="max-width: 400px;">
+                    Descargar Certificado (JPG)
+                </button>
+                <button class="btn-secondary btn" onclick="showModules()" style="max-width: 400px;">
+                    Volver a Módulos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: #1a1a2e; color: white; padding: 25px 20px; margin-top: 40px; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <p style="margin-bottom: 10px; font-size: 1.1em;">
+                <strong>Comité de Calidad</strong>
+            </p>
+            <p style="margin-bottom: 15px; color: #ccc;">
+                Dirección de Obra Social Provincia - Gobierno de San Juan
+            </p>
+            <p style="font-size: 0.85em; color: #888;">
+                Plan Anual de Capacitación 2025 · Todos los derechos reservados
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Global Variables
+        let currentUser = null;
+        let currentModule = null;
+        let userProgress = {};
+        let currentFilter = 'todos';
+
+        // Training Modules Data
+        const modules = [
+            // ========== MÓDULOS DE SEGURIDAD E HIGIENE ==========
+            {
+                id: 'incendios',
+                title: 'Protección Contra Incendios',
+                icon: '🔥',
+                category: 'seguridad',
+                description: 'Aprenda sobre prevención de incendios, uso de extintores y sistemas de detección.',
+                content: generateIncendiosContent(),
+                quiz: generateIncendiosQuiz()
+            },
+            {
+                id: 'evacuacion',
+                title: 'Plan de Evacuación',
+                icon: '🚪',
+                category: 'seguridad',
+                description: 'Conozca las rutas de evacuación, puntos de reunión y procedimientos de emergencia.',
+                content: generateEvacuacionContent(),
+                quiz: generateEvacuacionQuiz()
+            },
+            {
+                id: 'extintores',
+                title: 'Uso de Extintores',
+                icon: '🧯',
+                category: 'seguridad',
+                description: 'Capacitación práctica sobre tipos de extintores y técnicas de uso.',
+                content: generateExtintoresContent(),
+                quiz: generateExtintoresQuiz()
+            },
+            {
+                id: 'ergonomia',
+                title: 'Ergonomía y Prevención',
+                icon: '💺',
+                category: 'seguridad',
+                description: 'Prevención de trastornos músculo-esqueléticos y posturas correctas.',
+                content: generateErgonomiaContent(),
+                quiz: generateErgonomiaQuiz()
+            },
+            {
+                id: 'primeros-auxilios',
+                title: 'Primeros Auxilios',
+                icon: '⚕️',
+                category: 'seguridad',
+                description: 'Técnicas básicas de primeros auxilios y RCP.',
+                content: generatePrimerosAuxiliosContent(),
+                quiz: generatePrimerosAuxiliosQuiz()
+            },
+            
+            // ========== MÓDULOS DE GESTIÓN DE CALIDAD ==========
+            {
+                id: 'atencion-publico',
+                title: 'Atención al Público',
+                icon: '🤝',
+                category: 'calidad',
+                description: 'Técnicas y buenas prácticas para brindar una atención de excelencia al afiliado.',
+                content: generateAtencionPublicoContent(),
+                quiz: generateAtencionPublicoQuiz()
+            },
+            {
+                id: 'comunicacion-efectiva',
+                title: 'Comunicación Efectiva',
+                icon: '💬',
+                category: 'calidad',
+                description: 'Habilidades de comunicación verbal, escrita y no verbal en el ámbito laboral.',
+                content: generateComunicacionContent(),
+                quiz: generateComunicacionQuiz()
+            },
+            {
+                id: 'trabajo-equipo',
+                title: 'Trabajo en Equipo',
+                icon: '👥',
+                category: 'calidad',
+                description: 'Colaboración efectiva entre áreas para lograr objetivos comunes.',
+                content: generateTrabajoEquipoContent(),
+                quiz: generateTrabajoEquipoQuiz()
+            },
+            {
+                id: 'mejora-continua',
+                title: 'Mejora Continua',
+                icon: '📈',
+                category: 'calidad',
+                description: 'Herramientas y metodologías para identificar y aplicar mejoras en los procesos.',
+                content: generateMejoraContinuaContent(),
+                quiz: generateMejoraContinuaQuiz()
+            },
+            {
+                id: 'gestion-tiempo',
+                title: 'Gestión del Tiempo',
+                icon: '⏰',
+                category: 'calidad',
+                description: 'Técnicas de organización y productividad para optimizar su jornada laboral.',
+                content: generateGestionTiempoContent(),
+                quiz: generateGestionTiempoQuiz()
+            },
+            {
+                id: 'resolucion-problemas',
+                title: 'Resolución de Problemas',
+                icon: '🔧',
+                category: 'calidad',
+                description: 'Metodologías para analizar situaciones y encontrar soluciones efectivas.',
+                content: generateResolucionProblemasContent(),
+                quiz: generateResolucionProblemasQuiz()
+            },
+            {
+                id: 'etica-funcion-publica',
+                title: 'Ética en la Función Pública',
+                icon: '⚖️',
+                category: 'calidad',
+                description: 'Principios éticos, transparencia y responsabilidad del servidor público.',
+                content: generateEticaContent(),
+                quiz: generateEticaQuiz()
+            },
+            {
+                id: 'manejo-stress',
+                title: 'Manejo del Estrés Laboral',
+                icon: '🧘',
+                category: 'calidad',
+                description: 'Técnicas para gestionar el estrés y mantener el bienestar en el trabajo.',
+                content: generateManejoStressContent(),
+                quiz: generateManejoStressQuiz()
+            }
+        ];
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserSession();
+            
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                login();
+            });
+        });
+
+        // Check for existing session
+        function checkUserSession() {
+            const savedUser = localStorage.getItem('currentUser_osp');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                loadUserProgress();
+                showMainContent();
+            }
+        }
+
+        // Login Function
+        function login() {
+            const name = document.getElementById('userNameInput').value;
+            const position = document.getElementById('userPositionInput').value;
+            const dni = document.getElementById('userDni').value;
+
+            currentUser = { name, position, dni, loginDate: new Date().toISOString() };
+            localStorage.setItem('currentUser_osp', JSON.stringify(currentUser));
+            
+            loadUserProgress();
+            showMainContent();
+        }
+
+        // Load User Progress
+        function loadUserProgress() {
+            const saved = localStorage.getItem(`progress_osp_${currentUser.dni}`);
+            userProgress = saved ? JSON.parse(saved) : {};
+        }
+
+        // Save Progress
+        function saveProgress() {
+            localStorage.setItem(`progress_osp_${currentUser.dni}`, JSON.stringify(userProgress));
+        }
+
+        // Show Main Content
+        function showMainContent() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userPosition').textContent = currentUser.position;
+
+            renderModules();
+            updateOverallProgress();
+        }
+
+        // Clear Data Modal Functions
+        function showClearDataModal() {
+            document.getElementById('clearDataModal').style.display = 'flex';
+        }
+
+        function hideClearDataModal() {
+            document.getElementById('clearDataModal').style.display = 'none';
+        }
+
+        function clearAllData() {
+            if (currentUser) {
+                localStorage.removeItem(`progress_osp_${currentUser.dni}`);
+            }
+            localStorage.removeItem('currentUser_osp');
+            
+            currentUser = null;
+            userProgress = {};
+            
+            hideClearDataModal();
+            
+            // Reset form
+            document.getElementById('userNameInput').value = '';
+            document.getElementById('userPositionInput').value = '';
+            document.getElementById('userDni').value = '';
+            
+            // Show login screen
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('trainingContent').style.display = 'none';
+            document.getElementById('certificateSection').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('userInfo').style.display = 'none';
+        }
+
+        // Filter Modules
+        function filterModules(category) {
+            currentFilter = category;
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderModules();
+        }
+
+        // Render Modules
+        function renderModules() {
+            const grid = document.getElementById('modulesGrid');
+            grid.innerHTML = '';
+
+            const filteredModules = currentFilter === 'todos' 
+                ? modules 
+                : modules.filter(m => m.category === currentFilter);
+
+            filteredModules.forEach(module => {
+                const completed = userProgress[module.id]?.completed || false;
+                const card = document.createElement('div');
+                card.className = `module-card category-${module.category}`;
+                card.onclick = () => openModule(module.id);
+                
+                const categoryLabel = module.category === 'seguridad' ? 'Seguridad' : 'Calidad';
+                const badgeClass = module.category === 'seguridad' ? 'badge-seguridad' : 'badge-calidad';
+                
+                card.innerHTML = `
+                    <span class="module-category-badge ${badgeClass}">${categoryLabel}</span>
+                    <div class="module-icon">${module.icon}</div>
+                    <h3>${module.title}</h3>
+                    <p>${module.description}</p>
+                    <div class="module-status ${completed ? 'status-completed' : 'status-pending'}">
+                        ${completed ? '✓ Completado' : '⏳ Pendiente'}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+
+            document.getElementById('totalModules').textContent = modules.length;
+        }
+
+        // Update Overall Progress
+        function updateOverallProgress() {
+            const completed = Object.values(userProgress).filter(p => p.completed).length;
+            const total = modules.length;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            // Total
+            document.getElementById('completedModules').textContent = completed;
+            document.getElementById('totalModules').textContent = total;
+            document.getElementById('overallProgress').style.width = percentage + '%';
+            document.getElementById('overallProgress').textContent = percentage + '%';
+
+            // By category
+            const seguridadModules = modules.filter(m => m.category === 'seguridad');
+            const calidadModules = modules.filter(m => m.category === 'calidad');
+            
+            const completedSeguridad = seguridadModules.filter(m => userProgress[m.id]?.completed).length;
+            const completedCalidad = calidadModules.filter(m => userProgress[m.id]?.completed).length;
+
+            document.getElementById('completedSeguridad').textContent = completedSeguridad;
+            document.getElementById('totalSeguridad').textContent = seguridadModules.length;
+            document.getElementById('completedCalidad').textContent = completedCalidad;
+            document.getElementById('totalCalidad').textContent = calidadModules.length;
+        }
+
+        // Open Module
+        function openModule(moduleId) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            currentModule = modules.find(m => m.id === moduleId);
+            
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('trainingContent').style.display = 'block';
+            document.getElementById('certificateSection').style.display = 'none';
+            
+            document.getElementById('trainingTitle').textContent = currentModule.title;
+            document.getElementById('trainingBody').innerHTML = currentModule.content;
+            
+            document.getElementById('quizSection').style.display = 'none';
+        }
+
+        // Show Modules
+        function showModules() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('trainingContent').style.display = 'none';
+            document.getElementById('certificateSection').style.display = 'none';
+            
+            renderModules();
+            updateOverallProgress();
+        }
+
+        // Start Quiz
+        function startQuiz() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            const quizSection = document.getElementById('quizSection');
+            quizSection.style.display = 'block';
+            
+            const questionsDiv = document.getElementById('quizQuestions');
+            questionsDiv.innerHTML = '';
+
+            currentModule.quiz.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <h4>Pregunta ${index + 1}: ${q.question}</h4>
+                    <div class="options">
+                        ${q.options.map((opt, i) => `
+                            <label class="option">
+                                <input type="radio" name="q${index}" value="${i}">
+                                <span>${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                questionsDiv.appendChild(questionDiv);
+            });
+
+            document.getElementById('quizResults').style.display = 'none';
+            
+            setTimeout(() => {
+                quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // Submit Quiz
+        function submitQuiz() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            let correct = 0;
+            const total = currentModule.quiz.length;
+
+            currentModule.quiz.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                const options = document.querySelectorAll(`input[name="q${index}"]`);
+                
+                if (selected) {
+                    const userAnswer = parseInt(selected.value);
+                    options.forEach((opt, i) => {
+                        const label = opt.closest('.option');
+                        if (i === q.correct) {
+                            label.classList.add('correct');
+                        } else if (i === userAnswer && userAnswer !== q.correct) {
+                            label.classList.add('incorrect');
+                        }
+                    });
+
+                    if (userAnswer === q.correct) {
+                        correct++;
+                    }
+                }
+            });
+
+            const percentage = Math.round((correct / total) * 100);
+            const passed = percentage >= 70;
+
+            const resultsDiv = document.getElementById('quizResults');
+            const scoreDiv = document.getElementById('quizScore');
+            
+            resultsDiv.style.display = 'block';
+            
+            if (passed) {
+                document.getElementById('resultsTitle').textContent = '¡Felicitaciones! 🎉';
+                scoreDiv.className = 'quiz-score score-excellent';
+                document.getElementById('resultsMessage').textContent = 
+                    `Ha aprobado la evaluación con ${correct} de ${total} respuestas correctas (${percentage}%)`;
+                document.getElementById('certButton').style.display = 'block';
+                document.getElementById('retryButton').style.display = 'none';
+
+                // Mark module as completed
+                if (!userProgress[currentModule.id]) {
+                    userProgress[currentModule.id] = {};
+                }
+                userProgress[currentModule.id].completed = true;
+                userProgress[currentModule.id].score = percentage;
+                userProgress[currentModule.id].date = new Date().toISOString();
+                saveProgress();
+            } else {
+                document.getElementById('resultsTitle').textContent = 'Resultado de la Evaluación';
+                scoreDiv.className = 'quiz-score score-poor';
+                document.getElementById('resultsMessage').textContent = 
+                    `Ha obtenido ${correct} de ${total} respuestas correctas (${percentage}%). Necesita al menos 70% para aprobar.`;
+                document.getElementById('certButton').style.display = 'none';
+                document.getElementById('retryButton').style.display = 'block';
+            }
+
+            scoreDiv.textContent = percentage + '%';
+
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        // Retry Quiz
+        function retryQuiz() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            document.getElementById('quizSection').style.display = 'none';
+            startQuiz();
+        }
+
+        // Generate Certificate
+        function generateCertificate() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            document.getElementById('trainingContent').style.display = 'none';
+            document.getElementById('certificateSection').style.display = 'block';
+
+            const canvas = document.getElementById('certificateCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, 1200, 850);
+
+            // Border
+            ctx.strokeStyle = '#003d7a';
+            ctx.lineWidth = 15;
+            ctx.strokeRect(30, 30, 1140, 790);
+
+            // Inner border
+            ctx.strokeStyle = '#f39c12';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(50, 50, 1100, 750);
+
+            // Header
+            ctx.fillStyle = '#003d7a';
+            ctx.font = 'bold 48px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Obra Social Provincia', 600, 120);
+
+            ctx.fillStyle = '#666';
+            ctx.font = '24px Arial';
+            ctx.fillText('Ministerio de Salud - Gobierno de San Juan', 600, 160);
+
+            // Certificate title
+            ctx.fillStyle = '#003d7a';
+            ctx.font = 'bold 56px Arial';
+            ctx.fillText('CERTIFICADO DE CAPACITACIÓN', 600, 240);
+
+            // Divider
+            ctx.strokeStyle = '#f39c12';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(200, 270);
+            ctx.lineTo(1000, 270);
+            ctx.stroke();
+
+            // Body text
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = '28px Arial';
+            ctx.fillText('Por medio del presente se certifica que', 600, 330);
+
+            // Name
+            ctx.fillStyle = '#003d7a';
+            ctx.font = 'bold 42px Arial';
+            ctx.fillText(currentUser.name.toUpperCase(), 600, 400);
+
+            // DNI
+            ctx.fillStyle = '#666';
+            ctx.font = '24px Arial';
+            ctx.fillText(`DNI: ${currentUser.dni}`, 600, 440);
+
+            // Position
+            ctx.fillText(`Cargo: ${currentUser.position}`, 600, 480);
+
+            // Course info
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = '28px Arial';
+            ctx.fillText('ha completado satisfactoriamente la capacitación', 600, 540);
+
+            ctx.fillStyle = '#003d7a';
+            ctx.font = 'bold 36px Arial';
+            
+            // Handle long titles
+            const title = currentModule.title.toUpperCase();
+            if (title.length > 35) {
+                ctx.font = 'bold 30px Arial';
+            }
+            ctx.fillText(title, 600, 590);
+
+            // Category badge
+            const categoryText = currentModule.category === 'seguridad' 
+                ? '(Seguridad e Higiene)' 
+                : '(Gestión de Calidad)';
+            ctx.fillStyle = '#666';
+            ctx.font = 'italic 22px Arial';
+            ctx.fillText(categoryText, 600, 625);
+
+            // Score
+            const score = userProgress[currentModule.id]?.score || 0;
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 32px Arial';
+            ctx.fillText(`Calificación: ${score}%`, 600, 680);
+
+            // Date
+            const date = new Date().toLocaleDateString('es-AR', { 
+                day: '2-digit', 
+                month: 'long', 
+                year: 'numeric' 
+            });
+            ctx.fillStyle = '#666';
+            ctx.font = '24px Arial';
+            ctx.fillText(`San Juan, ${date}`, 600, 740);
+
+            // Footer
+            ctx.fillStyle = '#999';
+            ctx.font = 'italic 18px Arial';
+            ctx.fillText('Portal de Capacitación - Obra Social Provincia', 600, 790);
+        }
+
+        // Download Certificate
+        function downloadCertificate() {
+            const canvas = document.getElementById('certificateCanvas');
+            const link = document.createElement('a');
+            link.download = `certificado_${currentModule.id}_${currentUser.dni}.jpg`;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+        }
+
+        // ==========================================
+        // CONTENIDO: MÓDULOS DE SEGURIDAD E HIGIENE
+        // ==========================================
+
+        function generateIncendiosContent() {
+            return `
+                <div class="training-section">
+                    <h3>🔥 Introducción a la Protección Contra Incendios</h3>
+                    <p>
+                        La protección contra incendios es fundamental para garantizar la seguridad de todas las personas 
+                        que trabajan en la Obra Social Provincia. Este módulo le proporcionará los conocimientos esenciales 
+                        sobre prevención, detección y actuación ante incendios.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>📋 Marco Legal:</strong> Este programa se basa en la Ley N° 19.587 de Higiene y Seguridad 
+                        en el Trabajo y su Decreto Reglamentario N° 351/79.
+                    </div>
+
+                    <h3>🔺 El Triángulo del Fuego</h3>
+                    <p>Para que se produzca un incendio, deben estar presentes simultáneamente tres elementos:</p>
+                    <ul>
+                        <li><strong>Combustible:</strong> Material que puede arder (papel, madera, líquidos inflamables)</li>
+                        <li><strong>Comburente:</strong> Oxígeno del aire</li>
+                        <li><strong>Calor:</strong> Energía necesaria para iniciar la combustión</li>
+                    </ul>
+                    <p><strong>Importante:</strong> Para extinguir un incendio, debemos eliminar al menos uno de estos elementos.</p>
+
+                    <h3>🏢 Clases de Fuego</h3>
+                    <table>
+                        <tr>
+                            <th>Clase</th>
+                            <th>Tipo de Material</th>
+                            <th>Extintor Recomendado</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Clase A</strong></td>
+                            <td>Combustibles sólidos (papel, madera, tela)</td>
+                            <td>ABC (Polvo) o Agua</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clase B</strong></td>
+                            <td>Líquidos inflamables</td>
+                            <td>ABC o Espuma</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clase C</strong></td>
+                            <td>Equipos eléctricos energizados</td>
+                            <td>CO₂ o ABC</td>
+                        </tr>
+                    </table>
+
+                    <h3>🚨 Prevención de Incendios en la Oficina</h3>
+                    <ul>
+                        <li>No sobrecargar tomas de corriente</li>
+                        <li>Mantener orden y limpieza</li>
+                        <li>No acumular papeles cerca de fuentes de calor</li>
+                        <li>Reportar instalaciones eléctricas defectuosas</li>
+                        <li>Conocer la ubicación de extintores</li>
+                    </ul>
+
+                    <div class="danger-box">
+                        <strong>⚠️ En caso de incendio:</strong>
+                        <ol>
+                            <li>Mantenga la calma</li>
+                            <li>Active la alarma de incendio</li>
+                            <li>Si es un fuego pequeño y sabe usar el extintor, intente controlarlo</li>
+                            <li>Si no puede controlarlo, evacúe inmediatamente</li>
+                            <li>Cierre puertas al salir (sin trabar)</li>
+                            <li>Diríjase al punto de reunión</li>
+                        </ol>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateIncendiosQuiz() {
+            return [
+                {
+                    question: "¿Cuáles son los tres elementos del triángulo del fuego?",
+                    options: ["Agua, fuego y aire", "Combustible, comburente (oxígeno) y calor", "Humo, llama y ceniza", "Madera, papel y tela"],
+                    correct: 1
+                },
+                {
+                    question: "Para un fuego de clase C (equipos eléctricos energizados), ¿qué extintor es apropiado?",
+                    options: ["Agua a presión", "Espuma", "CO₂ o ABC", "Solo arena"],
+                    correct: 2
+                },
+                {
+                    question: "¿Qué debe hacer PRIMERO si descubre un incendio pequeño?",
+                    options: ["Huir inmediatamente", "Mantener la calma y activar la alarma", "Abrir todas las ventanas", "Llamar a su familia"],
+                    correct: 1
+                },
+                {
+                    question: "¿Por qué se deben cerrar las puertas (sin trabar) al evacuar?",
+                    options: ["Para que nadie entre", "Para retardar la propagación del fuego y humo", "Para proteger los documentos", "No es necesario cerrarlas"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuál de estas es una medida de prevención de incendios?",
+                    options: ["Acumular papeles en cualquier lugar", "Usar múltiples adaptadores en cadena", "Mantener orden y limpieza", "Ignorar instalaciones defectuosas"],
+                    correct: 2
+                },
+                {
+                    question: "El fuego de Clase A involucra:",
+                    options: ["Líquidos inflamables", "Equipos eléctricos", "Combustibles sólidos como papel y madera", "Gases inflamables"],
+                    correct: 2
+                },
+                {
+                    question: "Si el fuego es demasiado grande para controlarlo con un extintor, debe:",
+                    options: ["Buscar más extintores", "Llamar a un compañero para que ayude", "Evacuar inmediatamente", "Intentar apagarlo con agua"],
+                    correct: 2
+                },
+                {
+                    question: "¿Dónde debe dirigirse después de evacuar?",
+                    options: ["A su casa", "Al punto de reunión establecido", "A la oficina del director", "Al estacionamiento"],
+                    correct: 1
+                },
+                {
+                    question: "Para eliminar un fuego, hay que:",
+                    options: ["Agregar más combustible", "Eliminar al menos uno de los elementos del triángulo", "Soplar sobre las llamas", "Esperar que se apague solo"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuál es el marco legal para la seguridad laboral en Argentina?",
+                    options: ["Ley 19.587 y Decreto 351/79", "Código Civil únicamente", "No existe legislación específica", "Solo normas internacionales"],
+                    correct: 0
+                }
+            ];
+        }
+
+        function generateEvacuacionContent() {
+            return `
+                <div class="training-section">
+                    <h3>🚪 Plan de Evacuación</h3>
+                    <p>
+                        El Plan de Evacuación es un conjunto organizado de procedimientos que tiene como objetivo 
+                        garantizar que todas las personas puedan abandonar el edificio de manera segura, rápida y 
+                        ordenada ante una emergencia. Conocer y practicar este plan puede salvar vidas.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>📍 Punto de Reunión de OSP:</strong> La explanada exterior principal, alejada del edificio. 
+                        Este lugar fue elegido por ser una zona segura, con espacio suficiente para todo el personal 
+                        y accesible para los servicios de emergencia. <strong>Memorice su ubicación.</strong>
+                    </div>
+
+                    <h3>🚨 Tipos de Emergencias que Requieren Evacuación</h3>
+                    <ul>
+                        <li><strong>Incendio:</strong> La más común. Se activa ante humo, llamas o activación del sistema de detección.</li>
+                        <li><strong>Amenaza de bomba:</strong> Ante aviso de artefacto explosivo.</li>
+                        <li><strong>Fuga de gas:</strong> Olor característico o detección de escape.</li>
+                        <li><strong>Sismo:</strong> Durante el sismo protéjase; evacúe después si hay daños estructurales.</li>
+                        <li><strong>Inundación:</strong> Ante riesgo de anegamiento del edificio.</li>
+                        <li><strong>Orden de autoridad competente:</strong> Bomberos, Defensa Civil, etc.</li>
+                    </ul>
+
+                    <h3>🔔 Señales de Alarma</h3>
+                    <ul>
+                        <li><strong>Alarma sonora continua:</strong> Indica evacuación inmediata. No espere confirmación.</li>
+                        <li><strong>Aviso verbal del Coordinador de Piso:</strong> Siga sus instrucciones al pie de la letra.</li>
+                        <li><strong>Sistema de megafonía:</strong> Puede brindar indicaciones específicas sobre la emergencia.</li>
+                    </ul>
+
+                    <h3>📋 Procedimiento de Evacuación - Paso a Paso</h3>
+                    <div class="success-box">
+                        <ol>
+                            <li><strong>Al escuchar la alarma:</strong> Suspenda inmediatamente sus actividades. No termine "solo esto".</li>
+                            <li><strong>Mantenga la calma:</strong> No corra ni grite. El pánico es contagioso y peligroso.</li>
+                            <li><strong>Asegure su puesto:</strong> Si tiene tiempo, apague equipos y cierre cajones (sin llave).</li>
+                            <li><strong>NO use ascensores:</strong> Bajo ninguna circunstancia. Pueden quedar atrapados.</li>
+                            <li><strong>Siga la señalización:</strong> Las flechas verdes indican el camino hacia las salidas.</li>
+                            <li><strong>Use las escaleras:</strong> Descienda por la derecha, dejando espacio para emergencias.</li>
+                            <li><strong>No regrese:</strong> Por ningún motivo vuelva a buscar pertenencias.</li>
+                            <li><strong>Ayude si puede:</strong> A personas con movilidad reducida, visitantes desorientados.</li>
+                            <li><strong>Diríjase al punto de reunión:</strong> No se disperse ni se vaya a su casa.</li>
+                            <li><strong>Espere el recuento:</strong> Es vital confirmar que todos evacuaron.</li>
+                            <li><strong>No reingrese:</strong> Hasta que el Coordinador de Evacuación lo autorice.</li>
+                        </ol>
+                    </div>
+
+                    <h3>🚶 Roles Durante la Evacuación</h3>
+                    <table>
+                        <tr><th>Rol</th><th>Responsabilidad</th><th>Identificación</th></tr>
+                        <tr><td><strong>Coordinador General</strong></td><td>Dirige toda la operación, contacta servicios de emergencia</td><td>Chaleco naranja</td></tr>
+                        <tr><td><strong>Coordinador de Piso</strong></td><td>Verifica que todos evacúen, revisa sanitarios y áreas cerradas</td><td>Chaleco verde</td></tr>
+                        <tr><td><strong>Brigadista</strong></td><td>Asiste en la evacuación, brinda primeros auxilios básicos</td><td>Chaleco rojo</td></tr>
+                        <tr><td><strong>Todo el Personal</strong></td><td>Evacuar ordenadamente, seguir instrucciones, ayudar si puede</td><td>-</td></tr>
+                    </table>
+
+                    <h3>🔥 En Caso de Humo</h3>
+                    <div class="warning-box">
+                        <ul>
+                            <li><strong>Agáchese:</strong> El humo sube, el aire más limpio está cerca del piso. Avance gateando si es necesario.</li>
+                            <li><strong>Cubra nariz y boca:</strong> Con un paño, preferentemente húmedo, para filtrar el aire.</li>
+                            <li><strong>Toque las puertas:</strong> Antes de abrirlas. Si están calientes, NO las abra - busque otra ruta.</li>
+                            <li><strong>Si debe atravesar humo:</strong> Contenga la respiración y avance rápido hacia la salida más cercana.</li>
+                            <li><strong>Cierre puertas:</strong> Al pasar, cierre las puertas para retardar el avance del fuego y humo.</li>
+                        </ul>
+                    </div>
+
+                    <h3>🚧 Si Queda Atrapado</h3>
+                    <ul>
+                        <li>Cierre la puerta y tape rendijas con trapos para evitar entrada de humo</li>
+                        <li>Llame al 911 indicando su ubicación exacta (piso, oficina, ventana)</li>
+                        <li>Haga señales por la ventana (trapo, linterna de celular)</li>
+                        <li>Manténgase cerca del piso donde hay más oxígeno</li>
+                        <li>NO salte por la ventana excepto como último recurso en pisos bajos</li>
+                    </ul>
+
+                    <h3>♿ Personas con Movilidad Reducida</h3>
+                    <ul>
+                        <li>Cada área debe tener identificadas a estas personas</li>
+                        <li>Asigne un "compañero de evacuación" que las asista</li>
+                        <li>Ubíquelas cerca de salidas para facilitar la evacuación</li>
+                        <li>En escaleras, espere ayuda de brigadistas capacitados</li>
+                        <li>Nunca use ascensores, incluso si la persona tiene dificultades de movilidad</li>
+                    </ul>
+
+                    <h3>🎯 La Importancia de los Simulacros</h3>
+                    <p>Los simulacros de evacuación son obligatorios y tienen múltiples beneficios:</p>
+                    <ul>
+                        <li>Permiten practicar los procedimientos sin el estrés de una emergencia real</li>
+                        <li>Identifican fallas en el plan que pueden corregirse</li>
+                        <li>Familiarizan al personal con rutas de escape y puntos de reunión</li>
+                        <li>Entrenan a coordinadores y brigadistas</li>
+                        <li>Miden tiempos de evacuación para optimizarlos</li>
+                    </ul>
+                    <p><strong>Su participación activa en cada simulacro es fundamental.</strong></p>
+
+                    <div class="danger-box">
+                        <strong>⚠️ Errores Comunes que Debe Evitar:</strong>
+                        <ul>
+                            <li>Ignorar la alarma pensando que es "solo un simulacro" o prueba</li>
+                            <li>Detenerse a recoger pertenencias personales</li>
+                            <li>Usar el ascensor bajo cualquier circunstancia</li>
+                            <li>Correr o empujar a otros</li>
+                            <li>Dispersarse después de evacuar en lugar de ir al punto de reunión</li>
+                            <li>Reingresar al edificio sin autorización</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateEvacuacionQuiz() {
+            return [
+                {
+                    question: "Al escuchar la alarma de evacuación, lo primero que debe hacer es:",
+                    options: ["Terminar lo que está haciendo", "Suspender inmediatamente sus actividades y evacuar", "Llamar a su familia", "Recoger todas sus pertenencias"],
+                    correct: 1
+                },
+                {
+                    question: "Durante una evacuación, ¿puede usar los ascensores?",
+                    options: ["Sí, es más rápido", "Solo si hay muchos pisos", "NO, nunca durante una emergencia", "Solo para personas mayores"],
+                    correct: 2
+                },
+                {
+                    question: "El punto de reunión de OSP está ubicado en:",
+                    options: ["El estacionamiento", "La terraza", "La explanada exterior principal", "El subsuelo"],
+                    correct: 2
+                },
+                {
+                    question: "Si hay humo durante la evacuación, debe:",
+                    options: ["Correr rápidamente", "Agacharse y avanzar gateando", "Abrir todas las ventanas", "Quedarse quieto"],
+                    correct: 1
+                },
+                {
+                    question: "¿Puede regresar al edificio después de evacuar?",
+                    options: ["Sí, cuando quiera", "Solo si olvidó algo importante", "NO, hasta recibir autorización", "Después de 5 minutos"],
+                    correct: 2
+                },
+                {
+                    question: "El Coordinador de Piso es responsable de:",
+                    options: ["Apagar el fuego", "Verificar que todos evacúen su piso", "Llamar a los medios", "Reparar los daños"],
+                    correct: 1
+                },
+                {
+                    question: "Antes de abrir una puerta durante un incendio, debe:",
+                    options: ["Abrirla de golpe", "Tocar la manija para verificar si está caliente", "Patearla", "Gritar para saber si hay alguien"],
+                    correct: 1
+                },
+                {
+                    question: "Las señales de evacuación son de color:",
+                    options: ["Rojo", "Amarillo", "Verde", "Azul"],
+                    correct: 2
+                },
+                {
+                    question: "Durante la evacuación, su actitud debe ser:",
+                    options: ["Correr lo más rápido posible", "Mantener la calma y no correr", "Gritar para alertar a otros", "Empujar a los demás"],
+                    correct: 1
+                },
+                {
+                    question: "Los simulacros de evacuación son:",
+                    options: ["Opcionales", "Solo para brigadistas", "Obligatorios para todo el personal", "Una pérdida de tiempo"],
+                    correct: 2
+                }
+            ];
+        }
+
+        function generateExtintoresContent() {
+            return `
+                <div class="training-section">
+                    <h3>🧯 Uso Correcto de Extintores</h3>
+                    <p>
+                        Los extintores son la primera línea de defensa contra incendios incipientes. Son equipos 
+                        portátiles diseñados para controlar o extinguir fuegos pequeños en su fase inicial. 
+                        Un extintor usado correctamente puede evitar que un pequeño fuego se convierta en un 
+                        desastre; sin embargo, un uso incorrecto puede ser ineficaz o incluso peligroso.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>💡 Dato importante:</strong> Los extintores están diseñados para fuegos pequeños 
+                        en su fase inicial. Si el fuego es más grande que un cesto de basura o ya se propagó 
+                        a otros objetos, NO intente combatirlo - evacúe inmediatamente y llame a Bomberos (100).
+                    </div>
+
+                    <h3>📋 Tipos de Extintores en OSP</h3>
+                    <p>Es fundamental conocer los tipos de extintores para usar el correcto según el tipo de fuego:</p>
+                    <table>
+                        <tr><th>Tipo</th><th>Agente Extintor</th><th>Color Franja</th><th>Uso Recomendado</th><th>Precauciones</th></tr>
+                        <tr><td><strong>ABC</strong></td><td>Polvo químico seco</td><td>Amarilla</td><td>Fuegos A, B y C - Uso general en oficinas</td><td>El polvo puede dañar equipos electrónicos sensibles. Dificulta la visibilidad.</td></tr>
+                        <tr><td><strong>CO₂</strong></td><td>Dióxido de carbono</td><td>Negra</td><td>Equipos eléctricos, electrónica, servidores</td><td>La bocina se enfría a -70°C, NO la toque. No usar en espacios muy cerrados sin ventilación.</td></tr>
+                        <tr><td><strong>Agua</strong></td><td>Agua presurizada</td><td>Verde</td><td>Solo fuegos Clase A (sólidos como papel, madera)</td><td>NUNCA usar en fuegos eléctricos ni líquidos inflamables - puede electrocutar o esparcir el fuego.</td></tr>
+                    </table>
+
+                    <h3>🎯 Técnica PASS: Los 4 Pasos Esenciales</h3>
+                    <p>La técnica PASS es un método universal y fácil de recordar para usar cualquier extintor:</p>
+                    <div class="success-box">
+                        <ol>
+                            <li><strong>P - PULL (Tire):</strong> Retire el pasador de seguridad (anilla metálica). Esto libera la palanca de descarga. Algunos extintores tienen un precinto plástico que debe romperse primero.</li>
+                            <li><strong>A - AIM (Apunte):</strong> Dirija la manguera o boquilla hacia la BASE del fuego, no a las llamas. El objetivo es atacar el combustible que alimenta el fuego, no el fuego en sí.</li>
+                            <li><strong>S - SQUEEZE (Apriete):</strong> Presione la palanca de descarga con firmeza y de manera continua. Puede soltar la palanca si necesita reposicionarse.</li>
+                            <li><strong>S - SWEEP (Barra):</strong> Realice un movimiento de barrido de lado a lado, cubriendo toda la base del fuego hasta extinguirlo completamente. Continúe hasta vaciar el extintor o apagar el fuego.</li>
+                        </ol>
+                    </div>
+
+                    <h3>📏 Posicionamiento Correcto</h3>
+                    <ul>
+                        <li><strong>Distancia:</strong> Ubíquese a 2-3 metros del fuego. Ni muy cerca (riesgo de quemaduras) ni muy lejos (el agente no llegará con fuerza).</li>
+                        <li><strong>Viento:</strong> Siempre posiciónese a favor del viento, es decir, que el viento sople desde su espalda hacia el fuego. Así evita que el humo y las llamas vayan hacia usted.</li>
+                        <li><strong>Ruta de escape:</strong> SIEMPRE mantenga una salida despejada a sus espaldas. Si el fuego se sale de control, debe poder huir inmediatamente.</li>
+                        <li><strong>Posición estable:</strong> Mantenga los pies separados y firmes para controlar el retroceso del extintor y mantener el equilibrio.</li>
+                    </ul>
+
+                    <h3>🔍 Inspección del Extintor - Antes de Necesitarlo</h3>
+                    <p>Conozca dónde están los extintores más cercanos a su puesto y verifique periódicamente:</p>
+                    <ul>
+                        <li><strong>Ubicación:</strong> ¿Está en su lugar designado, visible y accesible? ¿Hay algo bloqueando el acceso?</li>
+                        <li><strong>Señalización:</strong> ¿Hay cartel indicando su ubicación?</li>
+                        <li><strong>Manómetro:</strong> La aguja debe estar en la zona VERDE (presurizado correctamente). Si está en rojo, el extintor puede no funcionar.</li>
+                        <li><strong>Pasador de seguridad:</strong> Debe estar intacto con su precinto plástico.</li>
+                        <li><strong>Estado físico:</strong> Sin óxido, abolladuras, corrosión ni daños visibles.</li>
+                        <li><strong>Manguera:</strong> Sin grietas, roturas ni obstrucciones.</li>
+                        <li><strong>Etiqueta de mantenimiento:</strong> Verificar fecha de última recarga y vencimiento.</li>
+                    </ul>
+
+                    <h3>⏱️ Datos Importantes sobre Duración</h3>
+                    <table>
+                        <tr><th>Capacidad</th><th>Duración aproximada</th></tr>
+                        <tr><td>Extintor de 2.5 kg</td><td>8-12 segundos</td></tr>
+                        <tr><td>Extintor de 5 kg</td><td>15-20 segundos</td></tr>
+                        <tr><td>Extintor de 10 kg</td><td>25-30 segundos</td></tr>
+                    </table>
+                    <p><strong>El tiempo es muy limitado - actúe con decisión y precisión. No hay tiempo para dudar.</strong></p>
+
+                    <h3>🚫 Cuándo NO Usar el Extintor</h3>
+                    <div class="danger-box">
+                        <strong>NO intente combatir el fuego si:</strong>
+                        <ul>
+                            <li>El fuego es más grande que usted o se propagó más allá del punto de origen</li>
+                            <li>El humo es muy denso y dificulta la respiración o visión</li>
+                            <li>No tiene una ruta de escape clara a sus espaldas</li>
+                            <li>No está seguro del tipo de fuego o del extintor adecuado</li>
+                            <li>Hay riesgo de explosión (gases, productos químicos)</li>
+                            <li>El fuego involucra materiales que no conoce</li>
+                            <li>Ya usó un extintor y el fuego se reavivó</li>
+                            <li>Tiene dudas sobre su capacidad para controlarlo</li>
+                        </ul>
+                        <p><strong>En cualquiera de estos casos: EVACÚE INMEDIATAMENTE y llame a Bomberos (100).</strong></p>
+                    </div>
+
+                    <h3>📍 Ubicación de Extintores en el Edificio</h3>
+                    <ul>
+                        <li>Están señalizados con carteles rojos en altura para ser visibles</li>
+                        <li>Se ubican en pasillos, cerca de salidas y en áreas de mayor riesgo</li>
+                        <li>La distancia máxima a recorrer hasta un extintor no debe superar los 20 metros</li>
+                        <li>Nunca deben estar obstruidos por mobiliario, cajas u otros objetos</li>
+                        <li>Conozca la ubicación de los extintores más cercanos a su puesto de trabajo</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Después de usar un extintor:</strong>
+                        <ul>
+                            <li>Aunque haya extinguido el fuego, llame igualmente a Bomberos para verificación</li>
+                            <li>Informe inmediatamente al área de Seguridad e Higiene</li>
+                            <li>Un extintor usado (aunque sea parcialmente) debe recargarse antes de volver a colocarse</li>
+                            <li>No abandone el área hasta verificar que el fuego no se reavive</li>
+                            <li>Complete el reporte de incidentes correspondiente</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateExtintoresQuiz() {
+            return [
+                {
+                    question: "La técnica PASS significa:",
+                    options: ["Presionar, Apuntar, Soltar, Soplar", "Pull (Tire), Aim (Apunte), Squeeze (Apriete), Sweep (Barra)", "Preparar, Activar, Sostener, Salir", "Proteger, Alertar, Socorrer, Salvar"],
+                    correct: 1
+                },
+                {
+                    question: "¿A qué distancia debe ubicarse del fuego para usar el extintor?",
+                    options: ["Lo más cerca posible", "A 10 metros", "A 2-3 metros", "No importa la distancia"],
+                    correct: 2
+                },
+                {
+                    question: "¿Hacia dónde debe apuntar la manguera del extintor?",
+                    options: ["A las llamas más altas", "A la BASE del fuego", "Al humo", "Al techo"],
+                    correct: 1
+                },
+                {
+                    question: "El extintor de CO₂ es ideal para:",
+                    options: ["Incendios de madera", "Equipos eléctricos y electrónicos", "Incendios de cocina", "Cualquier tipo de fuego"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuánto tiempo dura aproximadamente un extintor de 5kg?",
+                    options: ["1-2 minutos", "5-10 segundos", "15-20 segundos", "1 hora"],
+                    correct: 2
+                },
+                {
+                    question: "El manómetro del extintor debe estar en:",
+                    options: ["Zona roja", "Zona verde", "Zona amarilla", "No importa"],
+                    correct: 1
+                },
+                {
+                    question: "Respecto al viento, debe ubicarse:",
+                    options: ["De frente al viento", "A favor del viento (que sople a su espalda)", "No importa el viento", "De costado al viento"],
+                    correct: 1
+                },
+                {
+                    question: "Si el fuego es más alto que usted, debe:",
+                    options: ["Usar varios extintores", "Pedir ayuda", "NO usar extintor y evacuar inmediatamente", "Acercarse más"],
+                    correct: 2
+                },
+                {
+                    question: "El extintor ABC tiene una franja de color:",
+                    options: ["Roja", "Negra", "Amarilla", "Verde"],
+                    correct: 2
+                },
+                {
+                    question: "¿Qué debe mantener siempre a sus espaldas al usar un extintor?",
+                    options: ["Una pared", "Un compañero", "Una ruta de escape", "Otro extintor"],
+                    correct: 2
+                }
+            ];
+        }
+
+        function generateErgonomiaContent() {
+            return `
+                <div class="training-section">
+                    <h3>💺 Ergonomía en el Trabajo de Oficina</h3>
+                    <p>
+                        La ergonomía es la ciencia que estudia cómo adaptar el trabajo al ser humano, 
+                        optimizando la relación entre las personas y su entorno laboral. En el trabajo de oficina, 
+                        pasamos muchas horas sentados frente a una computadora, lo que puede generar trastornos 
+                        músculo-esqueléticos si no adoptamos posturas correctas y hábitos saludables.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>📊 Dato preocupante:</strong> Los trastornos músculo-esqueléticos relacionados 
+                        con el trabajo (dolor de espalda, síndrome del túnel carpiano, cervicalgias, tendinitis) 
+                        representan una de las principales causas de ausentismo laboral y afectan significativamente 
+                        la calidad de vida de los trabajadores. La buena noticia es que son prevenibles.
+                    </div>
+
+                    <h3>🖥️ El Puesto de Trabajo Ideal</h3>
+                    
+                    <h4>La Silla:</h4>
+                    <ul>
+                        <li><strong>Altura regulable:</strong> Sus pies deben apoyarse completamente en el suelo. Si no llegan, use un reposapiés.</li>
+                        <li><strong>Respaldo:</strong> Debe tener soporte lumbar que mantenga la curvatura natural de su espalda baja.</li>
+                        <li><strong>Profundidad del asiento:</strong> Debe dejar 2-3 dedos de espacio entre el borde y la parte posterior de sus rodillas.</li>
+                        <li><strong>Apoyabrazos:</strong> A la altura del escritorio, para que los hombros no estén elevados ni caídos.</li>
+                        <li><strong>Base:</strong> Estable, preferentemente con 5 ruedas para facilitar el movimiento.</li>
+                    </ul>
+
+                    <h4>El Escritorio:</h4>
+                    <ul>
+                        <li><strong>Altura:</strong> Debe permitir que los antebrazos queden paralelos al suelo al teclear (generalmente 72-75 cm).</li>
+                        <li><strong>Espacio:</strong> Suficiente para colocar todos los elementos de trabajo sin amontonamientos.</li>
+                        <li><strong>Superficie:</strong> Color mate para evitar reflejos molestos.</li>
+                        <li><strong>Organización:</strong> Los objetos de uso frecuente deben estar al alcance sin estirarse.</li>
+                    </ul>
+
+                    <h4>El Monitor:</h4>
+                    <ul>
+                        <li><strong>Altura:</strong> El borde superior de la pantalla debe estar a la altura de sus ojos o ligeramente por debajo.</li>
+                        <li><strong>Distancia:</strong> Entre 50-70 cm de sus ojos (aproximadamente un brazo extendido).</li>
+                        <li><strong>Inclinación:</strong> Ligeramente hacia atrás (10-20°) para facilitar la lectura.</li>
+                        <li><strong>Ubicación:</strong> Directamente frente a usted, no de costado, para evitar girar el cuello constantemente.</li>
+                        <li><strong>Iluminación:</strong> Evite reflejos de ventanas o luces directas sobre la pantalla. La luz natural debe venir del costado.</li>
+                    </ul>
+
+                    <h4>Teclado y Mouse:</h4>
+                    <ul>
+                        <li><strong>Posición:</strong> A la misma altura, permitiendo que los codos estén aproximadamente a 90°.</li>
+                        <li><strong>Muñecas:</strong> Rectas, en posición neutra - no dobladas hacia arriba ni hacia abajo.</li>
+                        <li><strong>Mouse:</strong> Cerca del teclado para evitar estirar el brazo. Use toda la mano, no solo los dedos.</li>
+                        <li><strong>Considere:</strong> Usar alfombrilla con soporte para muñeca si pasa mucho tiempo con el mouse.</li>
+                    </ul>
+
+                    <h3>🧘 La Postura Correcta al Sentarse</h3>
+                    <div class="success-box">
+                        <ul>
+                            <li><strong>Cabeza:</strong> Erguida, mirando al frente. Las orejas alineadas con los hombros.</li>
+                            <li><strong>Hombros:</strong> Relajados, no elevados hacia las orejas ni encorvados hacia adelante.</li>
+                            <li><strong>Espalda:</strong> Recta, bien apoyada en el respaldo, respetando las curvas naturales de la columna.</li>
+                            <li><strong>Codos:</strong> Flexionados a aproximadamente 90°, pegados al cuerpo.</li>
+                            <li><strong>Muñecas:</strong> En posición neutra, alineadas con los antebrazos.</li>
+                            <li><strong>Caderas:</strong> En el fondo de la silla, formando un ángulo de 90-100°.</li>
+                            <li><strong>Rodillas:</strong> A la misma altura o ligeramente más bajas que las caderas, flexionadas a 90°.</li>
+                            <li><strong>Pies:</strong> Apoyados completamente en el suelo o en un reposapiés.</li>
+                        </ul>
+                    </div>
+
+                    <h3>⏰ Pausas Activas: Esenciales para su Salud</h3>
+                    <p>Permanecer en la misma posición durante horas, aunque sea correcta, es perjudicial. Nuestro cuerpo está diseñado para moverse.</p>
+                    
+                    <h4>Cada 50-60 minutos, realice:</h4>
+                    <ul>
+                        <li><strong>Caminata breve:</strong> Levántese y camine unos minutos, vaya a buscar agua.</li>
+                        <li><strong>Estiramientos de cuello:</strong> Incline la cabeza hacia cada lado, mantenga 15 segundos. Gire suavemente.</li>
+                        <li><strong>Estiramientos de hombros:</strong> Elévelos hacia las orejas, mantenga 5 segundos y suelte. Haga círculos.</li>
+                        <li><strong>Estiramientos de espalda:</strong> Gire el torso hacia cada lado mientras está sentado. Estire brazos hacia arriba.</li>
+                        <li><strong>Estiramientos de muñecas:</strong> Extienda el brazo y con la otra mano flexione la muñeca. Haga círculos.</li>
+                        <li><strong>Estiramientos de piernas:</strong> Extienda una pierna, mantenga 10 segundos, alterne.</li>
+                    </ul>
+
+                    <h3>👁️ Cuidado de la Vista</h3>
+                    <div class="info-box">
+                        <strong>Regla 20-20-20:</strong> Cada 20 minutos, mire algo a 20 pies (6 metros) de distancia 
+                        durante 20 segundos. Esto relaja los músculos oculares que se fatigan al enfocar de cerca constantemente.
+                    </div>
+                    <ul>
+                        <li>Parpadee frecuentemente para lubricar los ojos (tendemos a parpadear menos frente a pantallas)</li>
+                        <li>Ajuste el brillo del monitor según la iluminación ambiental</li>
+                        <li>Evite reflejos y resplandores en la pantalla</li>
+                        <li>Considere usar filtro de luz azul, especialmente si trabaja de noche</li>
+                        <li>Si usa anteojos, asegúrese de que la graduación sea la adecuada para la distancia del monitor</li>
+                    </ul>
+
+                    <h3>📦 Manejo Manual de Cargas</h3>
+                    <p>Aunque en oficina no es frecuente levantar objetos pesados, puede ocurrir con cajas de archivo, resmas de papel, etc.</p>
+                    <ol>
+                        <li><strong>Evalúe:</strong> ¿Es muy pesado? ¿Necesita ayuda? No levante más de 25 kg sin ayuda.</li>
+                        <li><strong>Planifique:</strong> ¿A dónde lo lleva? ¿El camino está despejado?</li>
+                        <li><strong>Posiciónese:</strong> Pies separados, uno ligeramente adelantado, cerca de la carga.</li>
+                        <li><strong>Agáchese:</strong> Flexionando las rodillas, manteniendo la espalda recta.</li>
+                        <li><strong>Agarre firme:</strong> Con las dos manos y todos los dedos.</li>
+                        <li><strong>Levante:</strong> Enderezando las piernas, usando la fuerza de los muslos.</li>
+                        <li><strong>Cargue:</strong> Mantenga el objeto cerca del cuerpo, a la altura de la cintura.</li>
+                        <li><strong>Gire:</strong> Moviendo los pies, NUNCA girando el tronco con carga.</li>
+                    </ol>
+
+                    <h3>⚠️ Señales de Alerta - Consulte al Servicio Médico</h3>
+                    <div class="warning-box">
+                        <p>No ignore estas señales:</p>
+                        <ul>
+                            <li>Dolor persistente en cuello, hombros, espalda baja o muñecas</li>
+                            <li>Hormigueo o adormecimiento en manos, brazos o piernas</li>
+                            <li>Rigidez matutina en articulaciones que mejora con el movimiento</li>
+                            <li>Fatiga visual frecuente, ojos secos o irritados</li>
+                            <li>Dolores de cabeza recurrentes, especialmente al final de la jornada</li>
+                            <li>Dificultad o dolor al realizar movimientos habituales</li>
+                            <li>Debilidad en las manos o dificultad para agarrar objetos</li>
+                        </ul>
+                        <p><strong>La detección temprana permite un tratamiento más efectivo. No espere a que el dolor sea intenso.</strong></p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateErgonomiaQuiz() {
+            return [
+                {
+                    question: "¿A qué altura debe estar el monitor respecto a sus ojos?",
+                    options: ["Por debajo de los ojos", "A la altura de los ojos", "Por encima de los ojos", "No importa la altura"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cada cuánto tiempo se recomienda hacer pausas activas?",
+                    options: ["Cada 3 horas", "Solo al mediodía", "Cada 50-60 minutos", "Al final del día"],
+                    correct: 2
+                },
+                {
+                    question: "Para levantar un objeto pesado, debe flexionar:",
+                    options: ["La espalda", "Las rodillas", "Los brazos", "El cuello"],
+                    correct: 1
+                },
+                {
+                    question: "La regla 20-20-20 para cuidado visual indica:",
+                    options: ["Trabajar 20 horas, descansar 20 minutos", "Cada 20 minutos, mirar algo a 6m por 20 segundos", "Usar pantalla 20 pulgadas a 20 cm", "Parpadear 20 veces por minuto"],
+                    correct: 1
+                },
+                {
+                    question: "El ángulo de las rodillas al sentarse debe ser de:",
+                    options: ["45°", "180°", "90°", "120°"],
+                    correct: 2
+                },
+                {
+                    question: "¿A qué distancia debe estar el monitor?",
+                    options: ["Lo más cerca posible", "A 50-70 cm", "A más de 1 metro", "A 20 cm"],
+                    correct: 1
+                },
+                {
+                    question: "Al levantar una carga, debe mantenerla:",
+                    options: ["Lejos del cuerpo", "Sobre la cabeza", "Cerca del cuerpo", "A un costado"],
+                    correct: 2
+                },
+                {
+                    question: "El hormigueo frecuente en manos puede indicar:",
+                    options: ["Que todo está bien", "Un problema ergonómico que debe consultarse", "Que necesita más café", "Que hace mucho frío"],
+                    correct: 1
+                },
+                {
+                    question: "La espalda debe estar:",
+                    options: ["Inclinada hacia adelante", "Recta y apoyada en el respaldo", "Curvada", "Sin apoyar"],
+                    correct: 1
+                },
+                {
+                    question: "Durante las pausas activas se recomienda:",
+                    options: ["Seguir mirando la pantalla", "Estirar y caminar", "Dormir en el escritorio", "Comer en el puesto"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generatePrimerosAuxiliosContent() {
+            return `
+                <div class="training-section">
+                    <h3>⚕️ Primeros Auxilios Básicos</h3>
+                    <p>
+                        Los primeros auxilios son las medidas de asistencia inmediata que se brindan a 
+                        una persona que ha sufrido un accidente o enfermedad súbita.
+                    </p>
+
+                    <div class="danger-box">
+                        <strong>⚠️ IMPORTANTE:</strong> Este módulo NO reemplaza una capacitación práctica.
+                    </div>
+
+                    <h3>🎯 Principio PAS: Proteger, Alertar, Socorrer</h3>
+                    <ol>
+                        <li><strong>P - PROTEGER:</strong> A usted mismo, al accidentado y a terceros</li>
+                        <li><strong>A - ALERTAR:</strong> Llame a <strong>107</strong> (SAME) o <strong>911</strong></li>
+                        <li><strong>S - SOCORRER:</strong> Brinde primeros auxilios mientras llega ayuda</li>
+                    </ol>
+
+                    <h3>💓 RCP Básico (Solo Manos)</h3>
+                    <div class="success-box">
+                        <p>Si una persona adulta está inconsciente y NO respira:</p>
+                        <ol>
+                            <li>Llame al 107 o 911</li>
+                            <li>Coloque a la víctima en superficie dura, boca arriba</li>
+                            <li>Ubique sus manos en el centro del pecho</li>
+                            <li>Comprima: 100-120 por minuto, 5-6 cm de profundidad</li>
+                            <li>NO se detenga hasta que llegue ayuda</li>
+                        </ol>
+                        <p><strong>Ritmo:</strong> Al compás de "La Macarena" o "Stayin' Alive"</p>
+                    </div>
+
+                    <h3>🫁 Atragantamiento - Maniobra de Heimlich</h3>
+                    <ol>
+                        <li>Colóquese detrás de la víctima</li>
+                        <li>Rodee su cintura con sus brazos</li>
+                        <li>Cierre el puño y colóquelo encima del ombligo</li>
+                        <li>Realice compresiones rápidas hacia adentro y arriba</li>
+                    </ol>
+
+                    <h3>🩸 Hemorragias</h3>
+                    <ol>
+                        <li>Use guantes si es posible</li>
+                        <li>Aplique presión directa sobre la herida</li>
+                        <li>NO retire el primer apósito</li>
+                        <li>Eleve el miembro si no hay fractura</li>
+                    </ol>
+
+                    <h3>🔥 Quemaduras</h3>
+                    <ul>
+                        <li>Enfríe con agua fría (NO helada) durante 10-20 minutos</li>
+                        <li>NO aplique hielo, pasta dental ni manteca</li>
+                        <li>NO rompa las ampollas</li>
+                    </ul>
+
+                    <h3>📱 Números de Emergencia</h3>
+                    <table>
+                        <tr><th>Servicio</th><th>Número</th></tr>
+                        <tr><td>SAME</td><td><strong>107</strong></td></tr>
+                        <tr><td>Emergencias</td><td><strong>911</strong></td></tr>
+                        <tr><td>Bomberos</td><td><strong>100</strong></td></tr>
+                    </table>
+                </div>
+            `;
+        }
+
+        function generatePrimerosAuxiliosQuiz() {
+            return [
+                {
+                    question: "PAS significa:",
+                    options: ["Proteger, Alertar, Socorrer", "Primero, Avisar, Salir", "Parar, Actuar, Seguir", "Prevenir, Asistir, Salvar"],
+                    correct: 0
+                },
+                {
+                    question: "Al realizar RCP en adultos, la frecuencia de compresiones debe ser:",
+                    options: ["50-70 por minuto", "100-120 por minuto", "150-200 por minuto", "No importa la frecuencia"],
+                    correct: 1
+                },
+                {
+                    question: "La profundidad de las compresiones en RCP para adultos debe ser:",
+                    options: ["1-2 cm", "5-6 cm", "10 cm", "Empujar con toda su fuerza"],
+                    correct: 1
+                },
+                {
+                    question: "Si una persona está atragantada pero puede toser, debe:",
+                    options: ["Darle palmadas en la espalda", "Animarla a toser", "Hacer la maniobra de Heimlich", "Darle agua"],
+                    correct: 1
+                },
+                {
+                    question: "Para controlar una hemorragia externa, lo primero es:",
+                    options: ["Aplicar torniquete", "Lavar la herida", "Aplicar presión directa sobre la herida", "Esperar a que deje de sangrar"],
+                    correct: 2
+                },
+                {
+                    question: "En caso de quemadura, debe:",
+                    options: ["Aplicar hielo directamente", "Aplicar pasta dental", "Enfriar con agua fría durante 10-20 minutos", "Romper las ampollas"],
+                    correct: 2
+                },
+                {
+                    question: "El número de emergencias médicas (SAME) en Argentina es:",
+                    options: ["911", "100", "107", "103"],
+                    correct: 2
+                },
+                {
+                    question: "Antes de socorrer a alguien, lo primero es:",
+                    options: ["Mover a la víctima", "Protegerse a sí mismo", "Llamar a la familia", "Buscar un médico"],
+                    correct: 1
+                },
+                {
+                    question: "Si una persona se desmaya, debe:",
+                    options: ["Darle agua inmediatamente", "Acostarla con piernas elevadas", "Sentarla en una silla", "Darle una cachetada"],
+                    correct: 1
+                },
+                {
+                    question: "La maniobra de Heimlich se realiza con compresiones:",
+                    options: ["En el pecho", "En la espalda", "Encima del ombligo, hacia adentro y arriba", "En el cuello"],
+                    correct: 2
+                }
+            ];
+        }
+
+        // ==========================================
+        // CONTENIDO: MÓDULOS DE GESTIÓN DE CALIDAD
+        // ==========================================
+
+        function generateAtencionPublicoContent() {
+            return `
+                <div class="training-section">
+                    <h3>🤝 Excelencia en la Atención al Público</h3>
+                    <p>
+                        Como servidores públicos de la Obra Social Provincia, nuestra misión es brindar 
+                        un servicio de calidad que satisfaga las necesidades de nuestros afiliados. 
+                        La atención que brindamos es la carta de presentación de nuestra institución.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>💡 Recuerde:</strong> Cada afiliado que atendemos es una persona con necesidades 
+                        reales, muchas veces relacionadas con su salud o la de su familia. Nuestra actitud 
+                        puede hacer una gran diferencia en su experiencia.
+                    </div>
+
+                    <h3>🎯 Pilares de una Atención de Calidad</h3>
+                    <ul>
+                        <li><strong>Eficiencia:</strong> Resolver las consultas con el mínimo de pasos necesarios</li>
+                        <li><strong>Oportunidad:</strong> Atender en tiempos razonables</li>
+                        <li><strong>Accesibilidad:</strong> Facilitar el acceso a la información y servicios</li>
+                        <li><strong>Trato digno:</strong> Respeto y amabilidad en cada interacción</li>
+                        <li><strong>Transparencia:</strong> Información clara y honesta</li>
+                    </ul>
+
+                    <h3>📋 El Proceso de Atención</h3>
+                    
+                    <h4>1. Antes de la Atención</h4>
+                    <ul>
+                        <li>Conozca los trámites y servicios de su área</li>
+                        <li>Mantenga su espacio de trabajo ordenado</li>
+                        <li>Tenga a mano formularios e información necesaria</li>
+                        <li>Esté preparado para atender</li>
+                    </ul>
+
+                    <h4>2. Durante la Atención</h4>
+                    <div class="success-box">
+                        <ol>
+                            <li><strong>Salude cordialmente:</strong> "Buenos días/tardes, ¿en qué puedo ayudarle?"</li>
+                            <li><strong>Escuche activamente:</strong> Preste atención completa, no interrumpa</li>
+                            <li><strong>Identifique la necesidad:</strong> Pregunte si necesita clarificar</li>
+                            <li><strong>Informe claramente:</strong> Use lenguaje sencillo, evite tecnicismos</li>
+                            <li><strong>Resuelva o derive:</strong> Si no puede resolver, oriente correctamente</li>
+                            <li><strong>Confirme comprensión:</strong> "¿Le quedó clara la información?"</li>
+                            <li><strong>Despídase amablemente:</strong> "¿Hay algo más en que pueda ayudarle?"</li>
+                        </ol>
+                    </div>
+
+                    <h4>3. Después de la Atención</h4>
+                    <ul>
+                        <li>Registre la atención si corresponde</li>
+                        <li>Complete la documentación necesaria</li>
+                        <li>Derive expedientes según corresponda</li>
+                    </ul>
+
+                    <h3>⚠️ Manejo de Situaciones Difíciles</h3>
+                    <div class="warning-box">
+                        <h4>Cuando el afiliado está molesto:</h4>
+                        <ol>
+                            <li><strong>Mantenga la calma:</strong> No tome la queja como algo personal</li>
+                            <li><strong>Escuche sin interrumpir:</strong> Deje que exprese su malestar</li>
+                            <li><strong>Empatice:</strong> "Entiendo su frustración, voy a ayudarle..."</li>
+                            <li><strong>Enfóquese en soluciones:</strong> Qué SÍ puede hacer</li>
+                            <li><strong>Si es necesario:</strong> Solicite apoyo de un supervisor</li>
+                        </ol>
+                    </div>
+
+                    <h3>🚫 Lo que NO debemos hacer</h3>
+                    <ul>
+                        <li>Hacer esperar innecesariamente</li>
+                        <li>Usar el celular durante la atención</li>
+                        <li>Hablar con compañeros mientras atendemos</li>
+                        <li>Usar lenguaje técnico o burocrático</li>
+                        <li>Derivar sin dar información</li>
+                        <li>Discutir con el afiliado</li>
+                        <li>Hacer comentarios negativos sobre la institución</li>
+                    </ul>
+
+                    <h3>✅ Frases que Ayudan</h3>
+                    <table>
+                        <tr><th>En lugar de...</th><th>Diga...</th></tr>
+                        <tr><td>"No sé"</td><td>"Voy a averiguarlo" / "Le consulto a mi compañero"</td></tr>
+                        <tr><td>"Eso no es mi área"</td><td>"Lo derivo con el área correspondiente, es en..."</td></tr>
+                        <tr><td>"Tiene que esperar"</td><td>"En unos minutos lo atiendo" / "La espera es de aproximadamente..."</td></tr>
+                        <tr><td>"No se puede"</td><td>"Lo que podemos hacer es..."</td></tr>
+                    </table>
+                </div>
+            `;
+        }
+
+        function generateAtencionPublicoQuiz() {
+            return [
+                {
+                    question: "¿Cuál es el primer paso al recibir a un afiliado?",
+                    options: ["Pedirle el DNI", "Saludarlo cordialmente", "Preguntarle qué trámite necesita", "Indicarle que espere"],
+                    correct: 1
+                },
+                {
+                    question: "Si un afiliado está molesto, lo primero que debe hacer es:",
+                    options: ["Llamar al supervisor", "Pedirle que se calme", "Mantener la calma y escucharlo", "Derivarlo a otro sector"],
+                    correct: 2
+                },
+                {
+                    question: "'Escucha activa' significa:",
+                    options: ["Escuchar mientras hace otra cosa", "Prestar atención completa sin interrumpir", "Escuchar música mientras trabaja", "Escuchar solo lo importante"],
+                    correct: 1
+                },
+                {
+                    question: "Si no sabe la respuesta a una consulta, debe decir:",
+                    options: ["'No sé'", "'Eso no es mi área'", "'Voy a averiguarlo'", "'Pregunte en otro lado'"],
+                    correct: 2
+                },
+                {
+                    question: "¿Cuál de estas acciones NO es correcta durante la atención?",
+                    options: ["Escuchar al afiliado", "Usar el celular mientras atiende", "Confirmar que entendió", "Despedirse amablemente"],
+                    correct: 1
+                },
+                {
+                    question: "La 'oportunidad' en la atención se refiere a:",
+                    options: ["Aprovechar oportunidades de venta", "Atender en tiempos razonables", "Esperar el momento oportuno", "Dar oportunidades al afiliado"],
+                    correct: 1
+                },
+                {
+                    question: "Al finalizar la atención, debe:",
+                    options: ["Despedirse y pasar al siguiente", "Preguntar '¿Hay algo más en que pueda ayudarle?'", "Quedarse en silencio", "Llamar al siguiente en voz alta"],
+                    correct: 1
+                },
+                {
+                    question: "Cuando debe derivar a un afiliado, debe:",
+                    options: ["Solo decir 'no es mi área'", "Indicar claramente a dónde debe ir y qué documentos necesita", "Pedirle que pregunte en recepción", "No decir nada"],
+                    correct: 1
+                },
+                {
+                    question: "La empatía en la atención significa:",
+                    options: ["Estar de acuerdo con todo", "Ponerse en el lugar del afiliado", "Sentir lástima", "Ser simpático"],
+                    correct: 1
+                },
+                {
+                    question: "El trato digno incluye:",
+                    options: ["Solo ser amable", "Respeto, amabilidad y profesionalismo", "Tutear al afiliado", "Hablar en voz alta"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generateComunicacionContent() {
+            return `
+                <div class="training-section">
+                    <h3>💬 Comunicación Efectiva en el Trabajo</h3>
+                    <p>
+                        La comunicación efectiva es fundamental para el buen funcionamiento de cualquier 
+                        organización. Una buena comunicación mejora el clima laboral, reduce errores 
+                        y aumenta la eficiencia.
+                    </p>
+
+                    <h3>📢 Tipos de Comunicación</h3>
+                    <ul>
+                        <li><strong>Verbal:</strong> Lo que decimos (palabras)</li>
+                        <li><strong>No verbal:</strong> Gestos, postura, expresiones faciales</li>
+                        <li><strong>Escrita:</strong> Correos, notas, informes</li>
+                        <li><strong>Paraverbal:</strong> Tono, volumen, velocidad de voz</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>💡 Dato importante:</strong> El 55% de la comunicación es no verbal (gestos, postura), 
+                        el 38% es paraverbal (tono de voz) y solo el 7% son las palabras que usamos.
+                    </div>
+
+                    <h3>🎯 Comunicación Asertiva</h3>
+                    <p>
+                        La comunicación asertiva es expresar ideas, sentimientos y necesidades de manera 
+                        clara, directa y respetuosa, sin agredir ni someterse.
+                    </p>
+
+                    <table>
+                        <tr><th>Estilo</th><th>Característica</th><th>Ejemplo</th></tr>
+                        <tr><td><strong>Pasivo</strong></td><td>No expresa sus necesidades</td><td>"Bueno, está bien, no importa..."</td></tr>
+                        <tr><td><strong>Agresivo</strong></td><td>Impone sus ideas</td><td>"¡Tiene que hacerlo así!"</td></tr>
+                        <tr><td><strong>Asertivo</strong></td><td>Expresa con respeto</td><td>"Necesito que esto se complete hoy, ¿es posible?"</td></tr>
+                    </table>
+
+                    <h3>👂 Escucha Activa</h3>
+                    <div class="success-box">
+                        <p><strong>Técnicas de escucha activa:</strong></p>
+                        <ul>
+                            <li>Mantener contacto visual</li>
+                            <li>Asentir para mostrar que sigue la conversación</li>
+                            <li>No interrumpir</li>
+                            <li>Parafrasear: "Si entiendo bien, usted necesita..."</li>
+                            <li>Hacer preguntas para clarificar</li>
+                            <li>Evitar distracciones (celular, computadora)</li>
+                        </ul>
+                    </div>
+
+                    <h3>✉️ Comunicación Escrita Efectiva</h3>
+                    <h4>En correos electrónicos:</h4>
+                    <ul>
+                        <li><strong>Asunto claro:</strong> Que indique el tema del mensaje</li>
+                        <li><strong>Saludo:</strong> Cordial y apropiado</li>
+                        <li><strong>Mensaje breve:</strong> Ir al punto, párrafos cortos</li>
+                        <li><strong>Ortografía:</strong> Revisar antes de enviar</li>
+                        <li><strong>Despedida:</strong> Cordial con su nombre</li>
+                        <li><strong>Responder:</strong> En tiempo razonable (24-48hs)</li>
+                    </ul>
+
+                    <h3>🔄 Feedback (Retroalimentación)</h3>
+                    <p>Para dar feedback constructivo:</p>
+                    <ol>
+                        <li><strong>Sea específico:</strong> Situación concreta, no generalidades</li>
+                        <li><strong>Sea oportuno:</strong> Lo antes posible después del hecho</li>
+                        <li><strong>Enfóquese en el comportamiento:</strong> No en la persona</li>
+                        <li><strong>Proponga alternativas:</strong> Qué se podría hacer diferente</li>
+                    </ol>
+
+                    <h3>⚠️ Barreras de la Comunicación</h3>
+                    <ul>
+                        <li>Ruido o interrupciones</li>
+                        <li>Uso de jerga o tecnicismos</li>
+                        <li>Prejuicios o suposiciones</li>
+                        <li>Falta de atención</li>
+                        <li>Emociones intensas</li>
+                        <li>Diferencias culturales</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function generateComunicacionQuiz() {
+            return [
+                {
+                    question: "¿Qué porcentaje de la comunicación es no verbal?",
+                    options: ["7%", "38%", "55%", "100%"],
+                    correct: 2
+                },
+                {
+                    question: "La comunicación asertiva es:",
+                    options: ["Imponer sus ideas", "No expresar opiniones", "Expresar ideas de manera clara y respetuosa", "Estar de acuerdo con todo"],
+                    correct: 2
+                },
+                {
+                    question: "¿Cuál es una técnica de escucha activa?",
+                    options: ["Interrumpir para dar su opinión", "Mirar el celular mientras escucha", "Parafrasear lo que dice el otro", "Pensar en qué va a responder"],
+                    correct: 2
+                },
+                {
+                    question: "En un correo electrónico, el asunto debe ser:",
+                    options: ["Opcional", "Claro e indicar el tema", "Lo más largo posible", "Solo 'Hola'"],
+                    correct: 1
+                },
+                {
+                    question: "El feedback constructivo debe enfocarse en:",
+                    options: ["La persona", "El comportamiento específico", "Errores pasados", "Comparaciones con otros"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuál NO es una barrera de comunicación?",
+                    options: ["Ruido", "Escucha activa", "Prejuicios", "Uso de tecnicismos"],
+                    correct: 1
+                },
+                {
+                    question: "La comunicación paraverbal incluye:",
+                    options: ["Las palabras que usamos", "El tono y volumen de voz", "Los gestos", "Los correos electrónicos"],
+                    correct: 1
+                },
+                {
+                    question: "Un estilo de comunicación pasivo se caracteriza por:",
+                    options: ["Imponer ideas", "No expresar sus necesidades", "Ser respetuoso y claro", "Gritar"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuándo se debe dar feedback?",
+                    options: ["Meses después", "Lo antes posible después del hecho", "Solo en evaluaciones anuales", "Nunca"],
+                    correct: 1
+                },
+                {
+                    question: "Para evitar malentendidos en la comunicación escrita, debe:",
+                    options: ["Usar muchas abreviaturas", "Ser breve y claro, revisar ortografía", "Escribir todo en mayúsculas", "No usar saludos"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generateTrabajoEquipoContent() {
+            return `
+                <div class="training-section">
+                    <h3>👥 Trabajo en Equipo</h3>
+                    <p>
+                        El trabajo en equipo es la capacidad de colaborar con otros para lograr 
+                        objetivos comunes. En la Obra Social Provincia, el trabajo coordinado entre 
+                        áreas es fundamental para brindar un servicio de calidad.
+                    </p>
+
+                    <h3>🎯 Beneficios del Trabajo en Equipo</h3>
+                    <ul>
+                        <li>Mayor creatividad y variedad de ideas</li>
+                        <li>Mejor resolución de problemas</li>
+                        <li>Distribución equitativa de tareas</li>
+                        <li>Aprendizaje mutuo</li>
+                        <li>Mayor motivación y compromiso</li>
+                        <li>Mejores resultados</li>
+                    </ul>
+
+                    <h3>🔑 Características de un Equipo Efectivo</h3>
+                    <div class="success-box">
+                        <ul>
+                            <li><strong>Objetivo común:</strong> Todos saben hacia dónde van</li>
+                            <li><strong>Roles claros:</strong> Cada uno conoce su responsabilidad</li>
+                            <li><strong>Comunicación abierta:</strong> Se comparte información</li>
+                            <li><strong>Confianza:</strong> Se puede contar con el otro</li>
+                            <li><strong>Respeto:</strong> Se valoran las diferencias</li>
+                            <li><strong>Compromiso:</strong> Todos aportan su mejor esfuerzo</li>
+                        </ul>
+                    </div>
+
+                    <h3>🤝 Colaboración entre Áreas</h3>
+                    <p>Para que la colaboración entre áreas funcione:</p>
+                    <ul>
+                        <li>Conozca qué hace cada área y cómo se relaciona con la suya</li>
+                        <li>Comuníquese de manera clara y oportuna</li>
+                        <li>Cumpla con los plazos acordados</li>
+                        <li>Si hay un problema, busque solucionarlo, no culpables</li>
+                        <li>Reconozca el trabajo de los demás</li>
+                    </ul>
+
+                    <h3>⚠️ Conflictos en el Equipo</h3>
+                    <p>Los conflictos son naturales. Lo importante es cómo se manejan:</p>
+                    <ol>
+                        <li><strong>Identifique el problema:</strong> ¿Cuál es realmente el conflicto?</li>
+                        <li><strong>Escuche todas las partes:</strong> Sin interrumpir ni juzgar</li>
+                        <li><strong>Busque puntos en común:</strong> ¿En qué están de acuerdo?</li>
+                        <li><strong>Proponga soluciones:</strong> Enfóquese en el futuro, no en el pasado</li>
+                        <li><strong>Acuerde compromisos:</strong> ¿Qué va a hacer cada uno?</li>
+                    </ol>
+
+                    <h3>✅ Su Rol en el Equipo</h3>
+                    <ul>
+                        <li>Sea proactivo: no espere que le digan qué hacer</li>
+                        <li>Comparta información relevante</li>
+                        <li>Ayude a sus compañeros cuando pueda</li>
+                        <li>Acepte ayuda cuando la necesite</li>
+                        <li>Cumpla con sus compromisos</li>
+                        <li>Celebre los logros del equipo</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Actitudes que dañan al equipo:</strong>
+                        <ul>
+                            <li>Criticar a compañeros a sus espaldas</li>
+                            <li>No compartir información</li>
+                            <li>Buscar culpables en lugar de soluciones</li>
+                            <li>No cumplir compromisos</li>
+                            <li>Trabajar de forma aislada</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateTrabajoEquipoQuiz() {
+            return [
+                {
+                    question: "¿Cuál es un beneficio del trabajo en equipo?",
+                    options: ["Trabajar solo es más fácil", "Mayor creatividad y mejor resolución de problemas", "No tener que comunicarse", "Evitar responsabilidades"],
+                    correct: 1
+                },
+                {
+                    question: "Un equipo efectivo necesita:",
+                    options: ["Que todos piensen igual", "Objetivos claros y comunicación abierta", "Un líder que decida todo", "Evitar los conflictos"],
+                    correct: 1
+                },
+                {
+                    question: "Cuando hay un problema entre áreas, debe:",
+                    options: ["Buscar culpables", "Buscar soluciones, no culpables", "Ignorar el problema", "Quejarse con el jefe"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuál es una actitud que daña al equipo?",
+                    options: ["Compartir información", "Criticar a compañeros a sus espaldas", "Ayudar cuando se puede", "Cumplir compromisos"],
+                    correct: 1
+                },
+                {
+                    question: "Para manejar un conflicto, lo primero es:",
+                    options: ["Gritar más fuerte", "Identificar cuál es realmente el problema", "Ignorarlo", "Buscar un culpable"],
+                    correct: 1
+                },
+                {
+                    question: "Ser proactivo en un equipo significa:",
+                    options: ["Esperar que le digan qué hacer", "Tomar iniciativa sin esperar instrucciones", "Hacer solo lo mínimo", "Criticar a los demás"],
+                    correct: 1
+                },
+                {
+                    question: "La confianza en un equipo se construye:",
+                    options: ["Automáticamente", "Cumpliendo compromisos y siendo consistente", "Siendo el mejor individualmente", "Compitiendo con los compañeros"],
+                    correct: 1
+                },
+                {
+                    question: "Cuando un compañero logra algo, debe:",
+                    options: ["Ignorarlo", "Reconocer y celebrar el logro", "Minimizarlo", "Sentir envidia"],
+                    correct: 1
+                },
+                {
+                    question: "Los roles claros en un equipo significan que:",
+                    options: ["Solo el jefe trabaja", "Cada uno conoce su responsabilidad", "Nadie sabe qué hacer", "Todos hacen lo mismo"],
+                    correct: 1
+                },
+                {
+                    question: "La colaboración entre áreas mejora cuando:",
+                    options: ["Cada área trabaja aislada", "Se comunican de manera clara y oportuna", "Compiten entre sí", "No se relacionan"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generateMejoraContinuaContent() {
+            return `
+                <div class="training-section">
+                    <h3>📈 Mejora Continua</h3>
+                    <p>
+                        La mejora continua es una filosofía de trabajo que busca optimizar constantemente 
+                        los procesos, productos y servicios. No se trata de cambios drásticos, sino de 
+                        pequeñas mejoras constantes que, acumuladas, generan grandes resultados.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>💡 Principio clave:</strong> "Lo que no se mide, no se puede mejorar. 
+                        Lo que no se mejora, se degrada."
+                    </div>
+
+                    <h3>🔄 El Ciclo PDCA (Planificar-Hacer-Verificar-Actuar)</h3>
+                    <div class="success-box">
+                        <table>
+                            <tr><th>Etapa</th><th>Qué hacer</th><th>Preguntas clave</th></tr>
+                            <tr>
+                                <td><strong>P - Planificar</strong></td>
+                                <td>Identificar qué mejorar y cómo</td>
+                                <td>¿Cuál es el problema? ¿Qué queremos lograr?</td>
+                            </tr>
+                            <tr>
+                                <td><strong>D - Hacer</strong></td>
+                                <td>Implementar el plan</td>
+                                <td>¿Cómo lo vamos a implementar?</td>
+                            </tr>
+                            <tr>
+                                <td><strong>C - Verificar</strong></td>
+                                <td>Evaluar resultados</td>
+                                <td>¿Funcionó? ¿Logramos el objetivo?</td>
+                            </tr>
+                            <tr>
+                                <td><strong>A - Actuar</strong></td>
+                                <td>Estandarizar o corregir</td>
+                                <td>¿Lo adoptamos? ¿Qué ajustamos?</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h3>🔍 Identificar Oportunidades de Mejora</h3>
+                    <p>Preste atención a:</p>
+                    <ul>
+                        <li><strong>Quejas frecuentes:</strong> De afiliados o compañeros</li>
+                        <li><strong>Errores repetitivos:</strong> Que ocurren una y otra vez</li>
+                        <li><strong>Demoras innecesarias:</strong> Pasos que no agregan valor</li>
+                        <li><strong>Duplicación de tareas:</strong> Lo mismo hecho por varios</li>
+                        <li><strong>Recursos desperdiciados:</strong> Tiempo, papel, esfuerzo</li>
+                    </ul>
+
+                    <h3>🛠️ Herramientas Simples de Mejora</h3>
+                    
+                    <h4>Los 5 Por Qué</h4>
+                    <p>Pregunte "¿Por qué?" cinco veces para llegar a la causa raíz:</p>
+                    <ol>
+                        <li>¿Por qué el trámite se demoró? → Faltaba un documento</li>
+                        <li>¿Por qué faltaba? → El afiliado no sabía que lo necesitaba</li>
+                        <li>¿Por qué no sabía? → No se lo informaron</li>
+                        <li>¿Por qué no se informó? → No hay un listado visible</li>
+                        <li>¿Por qué no hay? → Nadie lo hizo → <strong>SOLUCIÓN: Crear el listado</strong></li>
+                    </ol>
+
+                    <h4>Lluvia de Ideas (Brainstorming)</h4>
+                    <ul>
+                        <li>Reunir al equipo</li>
+                        <li>Plantear el problema</li>
+                        <li>Generar ideas sin criticar</li>
+                        <li>Evaluar y seleccionar las mejores</li>
+                    </ul>
+
+                    <h3>✅ Su Rol en la Mejora Continua</h3>
+                    <ul>
+                        <li>Proponga mejoras cuando las identifique</li>
+                        <li>No diga "siempre se hizo así" como excusa</li>
+                        <li>Esté abierto a nuevas formas de hacer las cosas</li>
+                        <li>Aprenda de los errores (propios y ajenos)</li>
+                        <li>Comparta buenas prácticas con compañeros</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <strong>⚠️ Recuerde:</strong> Las quejas de los afiliados son oportunidades de mejora. 
+                        Si varios afiliados se quejan de lo mismo, hay algo que podemos mejorar.
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateMejoraContinuaQuiz() {
+            return [
+                {
+                    question: "El ciclo PDCA significa:",
+                    options: ["Problema-Decisión-Control-Acción", "Planificar-Hacer-Verificar-Actuar", "Proceso-Desarrollo-Calidad-Atención", "Pensar-Decidir-Cambiar-Aplicar"],
+                    correct: 1
+                },
+                {
+                    question: "La mejora continua se basa en:",
+                    options: ["Cambios drásticos ocasionales", "Pequeñas mejoras constantes", "No cambiar nada", "Solo mejorar cuando hay problemas graves"],
+                    correct: 1
+                },
+                {
+                    question: "La técnica de 'Los 5 Por Qué' sirve para:",
+                    options: ["Hacer preguntas filosóficas", "Llegar a la causa raíz de un problema", "Culpar a alguien", "Complicar las cosas"],
+                    correct: 1
+                },
+                {
+                    question: "Las quejas de los afiliados son:",
+                    options: ["Molestias que hay que ignorar", "Oportunidades de mejora", "Culpa del afiliado", "Imposibles de resolver"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuál es una señal de oportunidad de mejora?",
+                    options: ["Todo funciona perfecto", "Errores que se repiten frecuentemente", "Los afiliados no se quejan nunca", "No hay nada que cambiar"],
+                    correct: 1
+                },
+                {
+                    question: "En la etapa 'Verificar' del ciclo PDCA, se debe:",
+                    options: ["Planificar qué hacer", "Implementar cambios", "Evaluar si funcionó la mejora", "Ignorar los resultados"],
+                    correct: 2
+                },
+                {
+                    question: "Decir 'siempre se hizo así' es:",
+                    options: ["Una buena justificación", "Una barrera para la mejora", "Lo correcto", "Una muestra de experiencia"],
+                    correct: 1
+                },
+                {
+                    question: "La lluvia de ideas (brainstorming) requiere:",
+                    options: ["Criticar cada idea inmediatamente", "Generar ideas sin criticar primero", "Que solo hable el jefe", "No escuchar a los demás"],
+                    correct: 1
+                },
+                {
+                    question: "'Lo que no se mide, no se puede mejorar' significa que:",
+                    options: ["Hay que medir todo obsesivamente", "Es importante tener datos para evaluar mejoras", "No vale la pena medir nada", "Solo importan los números"],
+                    correct: 1
+                },
+                {
+                    question: "Cuando identifica una mejora posible, debe:",
+                    options: ["Quedarse callado", "Proponerla a su equipo o supervisor", "Esperar que otro la proponga", "Ignorarla"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generateGestionTiempoContent() {
+            return `
+                <div class="training-section">
+                    <h3>⏰ Gestión del Tiempo</h3>
+                    <p>
+                        La gestión del tiempo es la habilidad de organizar y planificar cómo dividir 
+                        las horas del día entre diferentes actividades. Una buena gestión del tiempo 
+                        permite trabajar de manera más inteligente, no más dura.
+                    </p>
+
+                    <div class="info-box">
+                        <strong>💡 Reflexión:</strong> Todos tenemos las mismas 24 horas. La diferencia 
+                        está en cómo las usamos.
+                    </div>
+
+                    <h3>📊 Matriz de Eisenhower (Urgente vs Importante)</h3>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>URGENTE</th>
+                            <th>NO URGENTE</th>
+                        </tr>
+                        <tr>
+                            <td><strong>IMPORTANTE</strong></td>
+                            <td>✅ HACER YA<br>(Crisis, plazos)</td>
+                            <td>📅 PLANIFICAR<br>(Proyectos, mejoras)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NO IMPORTANTE</strong></td>
+                            <td>👥 DELEGAR<br>(Interrupciones)</td>
+                            <td>🗑️ ELIMINAR<br>(Distracciones)</td>
+                        </tr>
+                    </table>
+
+                    <h3>🎯 Técnicas de Productividad</h3>
+
+                    <h4>1. Lista de Tareas Diarias</h4>
+                    <ul>
+                        <li>Al inicio del día, liste las tareas pendientes</li>
+                        <li>Priorice: ¿Cuáles son las 3 más importantes?</li>
+                        <li>Tache las completadas (¡satisfacción!)</li>
+                    </ul>
+
+                    <h4>2. Técnica Pomodoro</h4>
+                    <ul>
+                        <li>Trabaje concentrado 25 minutos</li>
+                        <li>Descanse 5 minutos</li>
+                        <li>Cada 4 "pomodoros", descanse 15-30 minutos</li>
+                    </ul>
+
+                    <h4>3. Agrupar Tareas Similares</h4>
+                    <ul>
+                        <li>Responda todos los correos en un bloque de tiempo</li>
+                        <li>Haga todas las llamadas juntas</li>
+                        <li>Evite cambiar constantemente de tipo de tarea</li>
+                    </ul>
+
+                    <h3>🚫 Ladrones del Tiempo</h3>
+                    <div class="warning-box">
+                        <ul>
+                            <li><strong>Interrupciones constantes:</strong> Personas, teléfono</li>
+                            <li><strong>Reuniones innecesarias:</strong> Sin agenda ni propósito claro</li>
+                            <li><strong>Correos electrónicos:</strong> Revisarlos constantemente</li>
+                            <li><strong>Redes sociales:</strong> El celular personal</li>
+                            <li><strong>Falta de planificación:</strong> No saber qué hacer primero</li>
+                            <li><strong>Perfeccionismo:</strong> Dedicar demasiado tiempo a detalles menores</li>
+                            <li><strong>Procrastinación:</strong> Postergar tareas difíciles</li>
+                        </ul>
+                    </div>
+
+                    <h3>✅ Buenos Hábitos</h3>
+                    <ul>
+                        <li>Llegue unos minutos antes para organizar su día</li>
+                        <li>Haga primero lo más difícil o importante</li>
+                        <li>Revise correos en momentos definidos (no constantemente)</li>
+                        <li>Aprenda a decir "no" o "ahora no puedo"</li>
+                        <li>Delegue cuando sea posible y apropiado</li>
+                        <li>Ordene su espacio de trabajo</li>
+                        <li>Al final del día, planifique el siguiente</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <strong>🎯 Consejo:</strong> Si una tarea toma menos de 2 minutos, hágala ahora. 
+                        Si toma más, agréguela a su lista y planifique cuándo hacerla.
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateGestionTiempoQuiz() {
+            return [
+                {
+                    question: "Según la Matriz de Eisenhower, una tarea urgente e importante debe:",
+                    options: ["Eliminarse", "Delegarse", "Hacerse ya", "Planificarse para después"],
+                    correct: 2
+                },
+                {
+                    question: "La técnica Pomodoro consiste en:",
+                    options: ["Trabajar sin descanso", "Trabajar 25 minutos y descansar 5", "Solo trabajar por la mañana", "Comer tomates"],
+                    correct: 1
+                },
+                {
+                    question: "¿Cuál es un 'ladrón del tiempo'?",
+                    options: ["Planificar el día", "Interrupciones constantes", "Hacer listas de tareas", "Priorizar"],
+                    correct: 1
+                },
+                {
+                    question: "Si una tarea toma menos de 2 minutos, debe:",
+                    options: ["Anotarla para después", "Hacerla ahora", "Delegarla", "Ignorarla"],
+                    correct: 1
+                },
+                {
+                    question: "Agrupar tareas similares sirve para:",
+                    options: ["Complicar el trabajo", "Evitar cambiar constantemente de tipo de actividad", "Trabajar más horas", "Hacer menos cosas"],
+                    correct: 1
+                },
+                {
+                    question: "Una tarea importante pero NO urgente debe:",
+                    options: ["Hacerse ya", "Planificarse para hacerla", "Eliminarse", "Ignorarse"],
+                    correct: 1
+                },
+                {
+                    question: "Revisar el correo constantemente es:",
+                    options: ["Una buena práctica", "Un ladrón del tiempo", "Obligatorio", "Imposible de evitar"],
+                    correct: 1
+                },
+                {
+                    question: "El perfeccionismo puede ser un problema porque:",
+                    options: ["Mejora la calidad", "Dedica demasiado tiempo a detalles menores", "No tiene efectos negativos", "Siempre es positivo"],
+                    correct: 1
+                },
+                {
+                    question: "Al final del día, es recomendable:",
+                    options: ["Irse rápido sin pensar", "Planificar el día siguiente", "No pensar en el trabajo", "Quedarse horas extra"],
+                    correct: 1
+                },
+                {
+                    question: "Decir 'no' o 'ahora no puedo' es:",
+                    options: ["Ser maleducado", "Una habilidad necesaria para gestionar el tiempo", "Imposible en el trabajo", "Siempre incorrecto"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generateResolucionProblemasContent() {
+            return `
+                <div class="training-section">
+                    <h3>🔧 Resolución de Problemas</h3>
+                    <p>
+                        La capacidad de resolver problemas es una habilidad fundamental en cualquier 
+                        trabajo. Un problema bien analizado es un problema medio resuelto.
+                    </p>
+
+                    <h3>📋 Proceso de Resolución de Problemas</h3>
+                    <div class="success-box">
+                        <ol>
+                            <li><strong>Identificar el problema:</strong> ¿Cuál es exactamente el problema?</li>
+                            <li><strong>Analizar causas:</strong> ¿Por qué ocurrió?</li>
+                            <li><strong>Generar alternativas:</strong> ¿Qué opciones tenemos?</li>
+                            <li><strong>Evaluar alternativas:</strong> ¿Cuál es la mejor?</li>
+                            <li><strong>Implementar la solución:</strong> Llevarla a la práctica</li>
+                            <li><strong>Evaluar resultados:</strong> ¿Funcionó?</li>
+                        </ol>
+                    </div>
+
+                    <h3>🔍 Técnicas de Análisis</h3>
+
+                    <h4>Los 5 Por Qué</h4>
+                    <p>Pregunte "¿por qué?" repetidamente hasta llegar a la causa raíz.</p>
+
+                    <h4>Diagrama de Espina de Pescado (Ishikawa)</h4>
+                    <p>Categorice las posibles causas en:</p>
+                    <ul>
+                        <li><strong>Personas:</strong> Capacitación, actitud, cantidad</li>
+                        <li><strong>Procesos:</strong> Procedimientos, pasos, tiempos</li>
+                        <li><strong>Recursos:</strong> Equipos, materiales, espacio</li>
+                        <li><strong>Información:</strong> Disponibilidad, claridad</li>
+                    </ul>
+
+                    <h3>💡 Generación de Alternativas</h3>
+                    <ul>
+                        <li>No se quede con la primera idea</li>
+                        <li>Considere al menos 3 opciones</li>
+                        <li>Piense "fuera de la caja"</li>
+                        <li>Consulte con compañeros</li>
+                        <li>Busque cómo se resolvió en casos similares</li>
+                    </ul>
+
+                    <h3>⚖️ Evaluación de Alternativas</h3>
+                    <p>Para cada alternativa, considere:</p>
+                    <table>
+                        <tr><th>Criterio</th><th>Pregunta</th></tr>
+                        <tr><td>Efectividad</td><td>¿Resuelve realmente el problema?</td></tr>
+                        <tr><td>Factibilidad</td><td>¿Se puede implementar?</td></tr>
+                        <tr><td>Costo</td><td>¿Qué recursos requiere?</td></tr>
+                        <tr><td>Tiempo</td><td>¿Cuánto tardará?</td></tr>
+                        <tr><td>Riesgos</td><td>¿Qué puede salir mal?</td></tr>
+                    </table>
+
+                    <h3>⚠️ Errores Comunes</h3>
+                    <div class="warning-box">
+                        <ul>
+                            <li>Resolver el síntoma, no la causa</li>
+                            <li>Actuar sin analizar</li>
+                            <li>Buscar culpables en vez de soluciones</li>
+                            <li>No considerar otras alternativas</li>
+                            <li>No evaluar si la solución funcionó</li>
+                        </ul>
+                    </div>
+
+                    <h3>🤔 Pensamiento Crítico</h3>
+                    <ul>
+                        <li>No asuma que la primera información es correcta</li>
+                        <li>Verifique los hechos</li>
+                        <li>Considere diferentes perspectivas</li>
+                        <li>Separe hechos de opiniones</li>
+                        <li>Pregunte: "¿Qué evidencia tengo?"</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function generateResolucionProblemasQuiz() {
+            return [
+                {
+                    question: "El primer paso en la resolución de problemas es:",
+                    options: ["Implementar una solución rápida", "Identificar claramente cuál es el problema", "Buscar culpables", "Ignorar el problema"],
+                    correct: 1
+                },
+                {
+                    question: "La técnica de 'Los 5 Por Qué' sirve para:",
+                    options: ["Hacer muchas preguntas", "Llegar a la causa raíz del problema", "Culpar a alguien", "Perder tiempo"],
+                    correct: 1
+                },
+                {
+                    question: "Al generar alternativas de solución, debe:",
+                    options: ["Quedarse con la primera idea", "Considerar al menos 3 opciones", "No consultar con nadie", "Elegir la más fácil siempre"],
+                    correct: 1
+                },
+                {
+                    question: "Resolver el síntoma en lugar de la causa es:",
+                    options: ["Lo correcto", "Un error común", "Suficiente", "La mejor opción"],
+                    correct: 1
+                },
+                {
+                    question: "Al evaluar alternativas, NO es importante considerar:",
+                    options: ["Si es efectiva", "Si es factible", "Quién tiene la culpa", "Qué recursos requiere"],
+                    correct: 2
+                },
+                {
+                    question: "El pensamiento crítico incluye:",
+                    options: ["Creer todo lo que le dicen", "Verificar los hechos", "No cuestionar nada", "Aceptar la primera información"],
+                    correct: 1
+                },
+                {
+                    question: "Después de implementar una solución, debe:",
+                    options: ["Olvidarse del tema", "Evaluar si funcionó", "Asumir que funcionó", "No hacer nada más"],
+                    correct: 1
+                },
+                {
+                    question: "El diagrama de Ishikawa categoriza causas en:",
+                    options: ["Solo personas", "Personas, procesos, recursos, información", "Solo recursos", "Nada específico"],
+                    correct: 1
+                },
+                {
+                    question: "Pensar 'fuera de la caja' significa:",
+                    options: ["Trabajar fuera de la oficina", "Considerar soluciones no convencionales", "No pensar", "Ignorar el problema"],
+                    correct: 1
+                },
+                {
+                    question: "Buscar culpables en vez de soluciones es:",
+                    options: ["Útil para resolver problemas", "Un error común que no ayuda", "La mejor estrategia", "Obligatorio"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generateEticaContent() {
+            return `
+                <div class="training-section">
+                    <h3>⚖️ Ética en la Función Pública</h3>
+                    <p>
+                        Como servidores públicos, tenemos la responsabilidad de actuar con integridad, 
+                        transparencia y en beneficio de los ciudadanos. La ética no es opcional, 
+                        es la base de la confianza pública en las instituciones.
+                    </p>
+
+                    <h3>🎯 Principios Éticos del Servidor Público</h3>
+                    <div class="success-box">
+                        <ul>
+                            <li><strong>Integridad:</strong> Actuar con honestidad y coherencia</li>
+                            <li><strong>Transparencia:</strong> Actuar de manera abierta y verificable</li>
+                            <li><strong>Imparcialidad:</strong> Tratar a todos por igual, sin favoritismos</li>
+                            <li><strong>Responsabilidad:</strong> Asumir las consecuencias de sus actos</li>
+                            <li><strong>Eficiencia:</strong> Usar los recursos públicos de manera óptima</li>
+                            <li><strong>Confidencialidad:</strong> Proteger la información sensible</li>
+                        </ul>
+                    </div>
+
+                    <h3>🚫 Conductas NO Éticas</h3>
+                    <div class="danger-box">
+                        <ul>
+                            <li>Recibir regalos o beneficios por su función</li>
+                            <li>Usar información privilegiada para beneficio propio</li>
+                            <li>Favorecer a familiares o amigos (nepotismo)</li>
+                            <li>Usar recursos públicos para fines personales</li>
+                            <li>Ocultar información que debería ser pública</li>
+                            <li>Discriminar a ciudadanos</li>
+                            <li>Falsificar documentos o información</li>
+                        </ul>
+                    </div>
+
+                    <h3>🔐 Confidencialidad de la Información</h3>
+                    <p>Como empleados de OSP, manejamos información sensible de los afiliados:</p>
+                    <ul>
+                        <li><strong>Datos personales:</strong> DNI, domicilio, teléfono</li>
+                        <li><strong>Datos de salud:</strong> Diagnósticos, tratamientos</li>
+                        <li><strong>Datos económicos:</strong> Aportes, deudas</li>
+                    </ul>
+                    <p><strong>Esta información NUNCA debe:</strong></p>
+                    <ul>
+                        <li>Compartirse con personas no autorizadas</li>
+                        <li>Consultarse sin motivo laboral</li>
+                        <li>Dejarse visible en pantallas o escritorios</li>
+                        <li>Comentarse en conversaciones informales</li>
+                    </ul>
+
+                    <h3>⚠️ Conflicto de Intereses</h3>
+                    <p>
+                        Un conflicto de intereses ocurre cuando sus intereses personales pueden 
+                        influir en sus decisiones laborales.
+                    </p>
+                    <p><strong>Ejemplos:</strong></p>
+                    <ul>
+                        <li>Atender un trámite de un familiar</li>
+                        <li>Participar en una contratación donde tiene interés</li>
+                        <li>Recibir ofertas de proveedores</li>
+                    </ul>
+                    <p><strong>¿Qué hacer?</strong> Informar a su superior y abstenerse de participar.</p>
+
+                    <h3>✅ Compromiso Ético</h3>
+                    <ul>
+                        <li>Actúe como si todo lo que hace pudiera ser público</li>
+                        <li>Ante la duda, consulte con su superior</li>
+                        <li>Denuncie irregularidades que observe</li>
+                        <li>Trate a cada afiliado como le gustaría ser tratado</li>
+                        <li>Recuerde: usted representa a la institución</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function generateEticaQuiz() {
+            return [
+                {
+                    question: "La integridad en la función pública significa:",
+                    options: ["Hacer lo que convenga", "Actuar con honestidad y coherencia", "Ocultar errores", "Beneficiar a amigos"],
+                    correct: 1
+                },
+                {
+                    question: "Recibir regalos por su función pública es:",
+                    options: ["Aceptable si son pequeños", "Una conducta no ética", "Normal y esperado", "Obligación del ciudadano"],
+                    correct: 1
+                },
+                {
+                    question: "La información de salud de los afiliados:",
+                    options: ["Puede compartirse con cualquiera", "Es confidencial y debe protegerse", "No es importante", "Puede comentarse informalmente"],
+                    correct: 1
+                },
+                {
+                    question: "El nepotismo es:",
+                    options: ["Un principio ético", "Favorecer a familiares o amigos", "Una buena práctica", "Obligatorio"],
+                    correct: 1
+                },
+                {
+                    question: "Si debe atender un trámite de un familiar, debe:",
+                    options: ["Atenderlo normalmente", "Informar a su superior y abstenerse", "Darle prioridad", "Atenderlo pero más rápido"],
+                    correct: 1
+                },
+                {
+                    question: "La transparencia implica:",
+                    options: ["Ocultar información", "Actuar de manera abierta y verificable", "No documentar nada", "Solo informar lo conveniente"],
+                    correct: 1
+                },
+                {
+                    question: "Usar recursos públicos para fines personales es:",
+                    options: ["Normal si son pequeños", "Una falta ética grave", "Permitido para empleados", "Un derecho"],
+                    correct: 1
+                },
+                {
+                    question: "Ante una duda ética, debe:",
+                    options: ["Decidir solo", "Consultar con su superior", "Hacer lo más fácil", "No hacer nada"],
+                    correct: 1
+                },
+                {
+                    question: "Dejar información de afiliados visible en la pantalla es:",
+                    options: ["Normal", "Una falta de confidencialidad", "Aceptable", "Eficiente"],
+                    correct: 1
+                },
+                {
+                    question: "La imparcialidad significa:",
+                    options: ["Favorecer a algunos", "Tratar a todos por igual, sin favoritismos", "No atender a nadie", "Discriminar según convenga"],
+                    correct: 1
+                }
+            ];
+        }
+
+        function generateManejoStressContent() {
+            return `
+                <div class="training-section">
+                    <h3>🧘 Manejo del Estrés Laboral</h3>
+                    <p>
+                        El estrés laboral es una respuesta física y emocional a las exigencias del trabajo 
+                        cuando estas superan nuestra capacidad de respuesta. Un nivel moderado de estrés 
+                        puede ser motivador, pero el estrés crónico afecta la salud y el desempeño.
+                    </p>
+
+                    <h3>⚠️ Señales de Estrés</h3>
+                    <div class="warning-box">
+                        <h4>Físicas:</h4>
+                        <ul>
+                            <li>Dolores de cabeza frecuentes</li>
+                            <li>Tensión muscular (cuello, espalda)</li>
+                            <li>Problemas de sueño</li>
+                            <li>Fatiga constante</li>
+                            <li>Problemas digestivos</li>
+                        </ul>
+                        <h4>Emocionales:</h4>
+                        <ul>
+                            <li>Irritabilidad, mal humor</li>
+                            <li>Ansiedad, preocupación excesiva</li>
+                            <li>Desmotivación</li>
+                            <li>Dificultad para concentrarse</li>
+                            <li>Sensación de agobio</li>
+                        </ul>
+                    </div>
+
+                    <h3>🔍 Causas Comunes de Estrés Laboral</h3>
+                    <ul>
+                        <li>Sobrecarga de trabajo</li>
+                        <li>Plazos muy ajustados</li>
+                        <li>Falta de control sobre las tareas</li>
+                        <li>Conflictos con compañeros o superiores</li>
+                        <li>Falta de reconocimiento</li>
+                        <li>Ambigüedad en el rol</li>
+                        <li>Atención a público demandante</li>
+                    </ul>
+
+                    <h3>🛠️ Técnicas de Manejo del Estrés</h3>
+
+                    <h4>1. Respiración Profunda (4-7-8)</h4>
+                    <div class="success-box">
+                        <ol>
+                            <li>Inhale por la nariz contando hasta 4</li>
+                            <li>Mantenga el aire contando hasta 7</li>
+                            <li>Exhale por la boca contando hasta 8</li>
+                            <li>Repita 3-4 veces</li>
+                        </ol>
+                    </div>
+
+                    <h4>2. Pausas Conscientes</h4>
+                    <ul>
+                        <li>Cada hora, deténgase 1 minuto</li>
+                        <li>Respire profundo</li>
+                        <li>Estire el cuerpo</li>
+                        <li>Mire por la ventana o a lo lejos</li>
+                    </ul>
+
+                    <h4>3. Organización y Priorización</h4>
+                    <ul>
+                        <li>Haga listas de tareas</li>
+                        <li>Identifique lo urgente vs importante</li>
+                        <li>Aprenda a decir "no" cuando sea necesario</li>
+                        <li>Delegue lo que pueda</li>
+                    </ul>
+
+                    <h4>4. Hábitos Saludables</h4>
+                    <ul>
+                        <li>Duerma 7-8 horas</li>
+                        <li>Aliméntese bien</li>
+                        <li>Haga ejercicio regularmente</li>
+                        <li>Limite cafeína y alcohol</li>
+                        <li>Mantenga vida social activa</li>
+                    </ul>
+
+                    <h3>💬 Buscar Apoyo</h3>
+                    <p>No tiene que manejar todo solo:</p>
+                    <ul>
+                        <li>Hable con compañeros de confianza</li>
+                        <li>Comunique a su supervisor si está sobrecargado</li>
+                        <li>Use los recursos de apoyo disponibles</li>
+                        <li>Considere ayuda profesional si es necesario</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <strong>📞 Recursos de Apoyo:</strong><br>
+                        Línea de Salud Mental: 0800-999-0091 (gratuito, 24hs)
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateManejoStressQuiz() {
+            return [
+                {
+                    question: "¿Cuál es un síntoma físico del estrés laboral?",
+                    options: ["Mayor energía", "Dolores de cabeza frecuentes", "Mejor concentración", "Más motivación"],
+                    correct: 1
+                },
+                {
+                    question: "La técnica de respiración 4-7-8 consiste en:",
+                    options: ["Respirar 478 veces", "Inhalar 4s, mantener 7s, exhalar 8s", "Correr 4, 7 y 8 minutos", "Respirar rápido"],
+                    correct: 1
+                },
+                {
+                    question: "Una causa común de estrés laboral es:",
+                    options: ["Tener poco trabajo", "Sobrecarga de trabajo", "Trabajar solo 4 horas", "Vacaciones frecuentes"],
+                    correct: 1
+                },
+                {
+                    question: "Para manejar el estrés, es recomendable:",
+                    options: ["Trabajar más horas", "Tomar más café", "Hacer pausas conscientes y respirar", "No hablar con nadie"],
+                    correct: 2
+                },
+                {
+                    question: "El sueño recomendado para adultos es de:",
+                    options: ["4-5 horas", "7-8 horas", "12 horas", "No importa"],
+                    correct: 1
+                },
+                {
+                    question: "Si está sobrecargado de trabajo, debe:",
+                    options: ["Quedarse callado", "Comunicarlo a su supervisor", "Trabajar fines de semana", "Renunciar"],
+                    correct: 1
+                },
+                {
+                    question: "La desmotivación y la irritabilidad son síntomas:",
+                    options: ["Físicos del estrés", "Emocionales del estrés", "Normales siempre", "Sin importancia"],
+                    correct: 1
+                },
+                {
+                    question: "El ejercicio regular ayuda a:",
+                    options: ["Aumentar el estrés", "Manejar el estrés", "No tiene efecto", "Solo a deportistas"],
+                    correct: 1
+                },
+                {
+                    question: "Aprender a decir 'no' es:",
+                    options: ["Ser maleducado", "Una herramienta para manejar el estrés", "Imposible en el trabajo", "No recomendable"],
+                    correct: 1
+                },
+                {
+                    question: "Si el estrés es muy intenso, debe:",
+                    options: ["Ignorarlo", "Considerar buscar ayuda profesional", "Automedicarse", "No hacer nada"],
+                    correct: 1
+                }
+            ];
+        }
+    </script>
+</body>
+</html>
